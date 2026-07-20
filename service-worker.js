@@ -9,7 +9,7 @@ const arquivos = [
     "./logo.png",
     "./manifest.json",
     "./service-worker.js",
-    "./xlsx.full.min.js" // Biblioteca incluída no cache
+    "./xlsx.full.min.js"
 ];
 
 // Instala e salva os arquivos
