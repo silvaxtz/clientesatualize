@@ -1,85 +1,79 @@
 let clientes = [];
 
-// Carrega a lista de clientes
 fetch("clientes.json")
-    .then(res => res.json())
-    .then(data => {
-        clientes = data;
-    });
+  .then(res => res.json())
+  .then(data => {
+    clientes = data;
+  });
 
-const pesquisa = document.getElementById("pesquisa");
-const resultado = document.getElementById("resultado");
+function formatarIP(ip) {
+  if (!ip) return "";
 
-pesquisa.addEventListener("input", () => {
+  ip = String(ip).replace(/\D/g, "");
 
-    const texto = pesquisa.value.toLowerCase().trim();
+  // Se já estiver com pontos
+  if (ip.includes(".")) return ip;
 
-    if(texto === ""){
-        resultado.innerHTML = "";
-        return;
-    }
+  // IP salvo como 12 dígitos
+  if (ip.length === 12) {
+    return `${ip.slice(0,3)}.${ip.slice(3,6)}.${ip.slice(6,9)}.${ip.slice(9,12)}`;
+  }
 
-    const cliente = clientes.find(c =>
-        c.ppoe.toLowerCase().includes(texto) ||
-        c.ip.toLowerCase().includes(texto)
-    );
-
-    if(!cliente){
-        resultado.innerHTML = "<h3>Cliente não encontrado.</h3>";
-        return;
-    }
-
-    let status = cliente.status;
-    let classe = "";
-
-    if(status == 3 || status == "3"){
-        status = "🟢 Bom";
-        classe = "status-bom";
-    }else if(status == 2 || status == "2"){
-        status = "🟡 Médio";
-        classe = "status-medio";
-    }else{
-        status = "🔴 Ruim";
-        classe = "status-ruim";
-    }
-
-    resultado.innerHTML = `
-        <div class="campo">
-            <div class="titulo">PPOE</div>
-            <div class="valor">${cliente.ppoe}</div>
-        </div>
-
-        <div class="campo">
-            <div class="titulo">Painel</div>
-            <div class="valor">${cliente.painel}</div>
-        </div>
-
-        <div class="campo">
-            <div class="titulo">IP</div>
-            <div class="valor">${cliente.ip}</div>
-        </div>
-
-        <div class="campo">
-            <div class="titulo">Sinal</div>
-            <div class="valor">${cliente.sinal}</div>
-        </div>
-
-        <div class="campo">
-            <div class="titulo">Status</div>
-            <div class="${classe}">${status}</div>
-        </div>
-
-        <button onclick="copiar('${cliente.ip}')">
-            Copiar IP
-        </button>
-
-        <button onclick="copiar('${cliente.ppoe}')">
-            Copiar PPOE
-        </button>
-    `;
-});
-
-function copiar(texto){
-    navigator.clipboard.writeText(texto);
-    alert("Copiado!");
+  return ip;
 }
+
+function pesquisar() {
+
+  const texto = document
+    .getElementById("pesquisa")
+    .value
+    .toLowerCase()
+    .trim();
+
+  const resultado = document.getElementById("resultado");
+
+  if (texto === "") {
+    resultado.innerHTML = "";
+    return;
+  }
+
+  const encontrados = clientes.filter(c =>
+    (c.ppoe || "").toLowerCase().includes(texto) ||
+    String(c.ip || "").includes(texto)
+  );
+
+  if (encontrados.length === 0) {
+    resultado.innerHTML =
+      "<p style='text-align:center'>Nenhum cliente encontrado.</p>";
+    return;
+  }
+
+  resultado.innerHTML = encontrados.map(cliente => `
+    <div class="card">
+
+      <h2>${cliente.ppoe}</h2>
+
+      <p><strong>Painel:</strong> ${cliente.painel}</p>
+
+      <p><strong>IP:</strong> ${formatarIP(cliente.ip)}</p>
+
+      <p><strong>Sinal:</strong> ${cliente.sinal || "-"}</p>
+
+      <p><strong>Status:</strong> ${cliente.status}</p>
+
+      <button onclick="copiar('${formatarIP(cliente.ip)}')">
+        Copiar IP
+      </button>
+
+    </div>
+  `).join("");
+}
+
+function copiar(texto) {
+  navigator.clipboard.writeText(texto);
+  alert("IP copiado!");
+}
+
+document
+  .getElementById("pesquisa")
+  .addEventListener("input", pesquisar);
