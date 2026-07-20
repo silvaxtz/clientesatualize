@@ -160,6 +160,28 @@ pesquisa.addEventListener("input", () => {
         classe = "status-ruim";
     }
 
+    // Lógica do sinal com alerta integrado
+    let sinalValor = parseInt(cliente.sinal); 
+    let alertaHtml = "";
+    
+    if (!isNaN(sinalValor)) {
+        if (sinalValor < -70) {
+            alertaHtml = `
+                <div class="alerta-critico">
+                    ⚠️ Sinal Crítico (${cliente.sinal} dBm)<br>
+                    Última medição aponta necessidade de alinhamento!
+                </div>
+            `;
+        } else if (sinalValor > -50) {
+            alertaHtml = `
+                <div class="alerta-critico" style="background-color: #fff3cd; color: #856404; border-color: #ffeeba;">
+                    ⚠️ Sinal muito alto (${cliente.sinal} dBm)<br>
+                    Verifique saturação ou atenuação!
+                </div>
+            `;
+        }
+    }
+
     resultado.innerHTML = `
     <div class="campo">
         <div class="titulo">PPOE</div>
@@ -174,9 +196,10 @@ pesquisa.addEventListener("input", () => {
         <div class="valor">${formatarIP(cliente.ip)}</div>
     </div>
     <div class="campo">
-        <div class="titulo">Sinal</div>
+        <div class="titulo">Última Medição</div>
         <div class="valor">${cliente.sinal}</div>
     </div>
+    ${alertaHtml}
     <div class="campo">
         <div class="titulo">Status</div>
         <div class="${classe}">${status}</div>
