@@ -208,3 +208,67 @@ button:active{
     color:#475569;
     line-height:1.6;
 }
+/* =========================
+   PAINEL ADMINISTRADOR
+========================= */
+
+.cards-admin{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(130px,1fr));
+    gap:15px;
+    margin:25px 0;
+}
+
+.card-admin{
+    background:#f8fafc;
+    border:1px solid #e5e7eb;
+    border-radius:15px;
+    padding:18px;
+    text-align:center;
+    transition:.25s;
+    cursor:default;
+}
+
+.card-admin:hover{
+    transform:translateY(-3px);
+    box-shadow:0 10px 20px rgba(0,0,0,.08);
+    border-color:#00b050;
+}
+
+.card-admin span{
+    display:block;
+    color:#64748b;
+    font-size:14px;
+    margin-bottom:10px;
+}
+
+.card-admin h2{
+    font-size:30px;
+    color:#00b050;
+}
+
+#painelAdmin h2{
+    color:#0f172a;
+}
+
+#fecharAdmin{
+    width:auto;
+    padding:10px 20px;
+    margin-top:0;
+}
+
+#baixarJson{
+    background:#2563eb;
+}
+
+#baixarJson:hover{
+    background:#1d4ed8;
+}
+
+#copiarEstatisticas{
+    background:#7c3aed;
+}
+
+#copiarEstatisticas:hover{
+    background:#6d28d9;
+}
