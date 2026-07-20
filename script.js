@@ -133,6 +133,7 @@ fetch("clientes.json")
 .then(res=>res.json())
 .then(data=>{
     clientes=data;
+    atualizarDashboard();
 });
 
 const pesquisa=document.getElementById("pesquisa");
@@ -237,3 +238,73 @@ function copiar(texto){
     alert("Copiado!");
 
 }
+function atualizarDashboard() {
+
+    totalClientes.textContent = clientes.length;
+
+    const paineis = [...new Set(clientes.map(c => c.painel))];
+
+    totalPaineis.textContent = paineis.length;
+
+    totalBom.textContent = clientes.filter(c => Number(c.status) === 3).length;
+
+    totalMedio.textContent = clientes.filter(c => Number(c.status) === 2).length;
+
+    totalRuim.textContent = clientes.filter(c => Number(c.status) !== 3 && Number(c.status) !== 2).length;
+
+}
+
+btnAdmin.addEventListener("click", () => {
+
+    sistema.style.display = "none";
+    painelAdmin.style.display = "block";
+
+    atualizarDashboard();
+
+});
+
+fecharAdmin.addEventListener("click", () => {
+
+    painelAdmin.style.display = "none";
+    sistema.style.display = "block";
+
+});
+
+baixarJson.addEventListener("click", () => {
+
+    const blob = new Blob(
+        [JSON.stringify(clientes, null, 2)],
+        { type: "application/json" }
+    );
+
+    const url = URL.createObjectURL(blob);
+
+    const a = document.createElement("a");
+
+    a.href = url;
+    a.download = "clientes.json";
+
+    a.click();
+
+    URL.revokeObjectURL(url);
+
+});
+
+copiarEstatisticas.addEventListener("click", () => {
+
+    const texto = `
+📊 Atualize Telecom
+
+👥 Clientes: ${clientes.length}
+📡 Painéis: ${totalPaineis.textContent}
+
+🟢 Bom: ${totalBom.textContent}
+🟡 Médio: ${totalMedio.textContent}
+🔴 Ruim: ${totalRuim.textContent}
+`;
+
+    navigator.clipboard.writeText(texto);
+
+    alert("Estatísticas copiadas!");
+
+});
