@@ -415,3 +415,14 @@ body.dark-theme .btn-historico {
     background-color: #333;
     color: #bbb;
 }
+.alerta-critico {
+    background-color: #ffcccc;
+    color: #cc0000;
+    padding: 10px;
+    border-radius: 8px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #cc0000;
+    font-weight: bold;
+    text-align: center;
+}
