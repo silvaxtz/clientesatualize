@@ -1,4 +1,4 @@
-const CACHE = "atualize-v3";
+const CACHE = "atualize-v4";
 
 const arquivos = [
     "./",
@@ -8,7 +8,8 @@ const arquivos = [
     "./clientes.json",
     "./logo.png",
     "./manifest.json",
-    "./service-worker.js"
+    "./service-worker.js",
+    "./xlsx.full.min.js" // Biblioteca incluída no cache
 ];
 
 // Instala e salva os arquivos
@@ -16,7 +17,6 @@ self.addEventListener("install", event => {
     event.waitUntil(
         caches.open(CACHE).then(cache => cache.addAll(arquivos))
     );
-
     self.skipWaiting();
 });
 
@@ -31,34 +31,23 @@ self.addEventListener("activate", event => {
             )
         )
     );
-
     self.clients.claim();
 });
 
 // Usa o cache, mas tenta atualizar em segundo plano
 self.addEventListener("fetch", event => {
-
     if (event.request.method !== "GET") return;
 
     event.respondWith(
         caches.match(event.request).then(async cached => {
-
-            try{
-
+            try {
                 const network = await fetch(event.request);
-
                 const cache = await caches.open(CACHE);
                 cache.put(event.request, network.clone());
-
                 return cached || network;
-
-            }catch{
-
+            } catch {
                 return cached;
-
             }
-
         })
     );
-
 });
