@@ -361,3 +361,57 @@ button:active{
 #rankingPaineis::-webkit-scrollbar-track{
     background:#ececec;
 }
+/* =========================
+   TEMA ESCURO
+   ========================= */
+body.dark-theme {
+    background-color: #121212;
+    color: #e0e0e0;
+}
+
+body.dark-theme .container {
+    background-color: #1e1e1e;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+}
+
+body.dark-theme input {
+    background-color: #2c2c2c;
+    color: #ffffff;
+    border: 1px solid #444;
+}
+
+body.dark-theme .card-admin {
+    background-color: #2c2c2c;
+    border: 1px solid #444;
+}
+
+body.dark-theme .campo .valor {
+    color: #ffffff;
+}
+
+/* =========================
+   HISTÓRICO DE PESQUISA
+   ========================= */
+.historico-container {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+    justify-content: center;
+}
+
+.btn-historico {
+    background-color: #e0e0e0;
+    color: #333;
+    padding: 5px 12px;
+    border-radius: 15px;
+    font-size: 12px;
+    cursor: pointer;
+    border: none;
+    width: auto;
+}
+
+body.dark-theme .btn-historico {
+    background-color: #333;
+    color: #bbb;
+}
