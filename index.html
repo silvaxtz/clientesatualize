@@ -107,6 +107,24 @@
 
     </div>
 
+    <hr style="margin:30px 0;">
+
+    <h2>📈 Top Painéis</h2>
+
+    <div id="rankingPaineis"></div>
+
+    <hr style="margin:30px 0;">
+
+    <h2>📊 Saúde da Rede</h2>
+
+    <div class="barra-saude">
+        <div id="barraSaude"></div>
+    </div>
+
+    <p id="textoSaude"></p>
+
+    <hr style="margin:30px 0;">
+
     <button id="baixarJson">
         📥 Baixar clientes.json
     </button>
@@ -120,7 +138,7 @@
 <script src="script.js"></script>
 
 <script>
-if ("serviceWorker" in navigator"){
+if ("serviceWorker" in navigator) {
     navigator.serviceWorker.register("service-worker.js");
 }
 </script>
