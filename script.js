@@ -160,6 +160,18 @@ pesquisa.addEventListener("input", () => {
         classe = "status-ruim";
     }
 
+    // Lógica do sinal crítico
+    let sinalValor = parseInt(cliente.sinal); 
+    let alertaHtml = "";
+    if (!isNaN(sinalValor) && sinalValor < -70) {
+        alertaHtml = `
+            <div class="alerta-critico">
+                ⚠️ Sinal Crítico (${cliente.sinal} dBm)<br>
+                Ajuste de alinhamento necessário!
+            </div>
+        `;
+    }
+
     resultado.innerHTML = `
     <div class="campo">
         <div class="titulo">PPOE</div>
@@ -177,6 +189,7 @@ pesquisa.addEventListener("input", () => {
         <div class="titulo">Sinal</div>
         <div class="valor">${cliente.sinal}</div>
     </div>
+    ${alertaHtml}
     <div class="campo">
         <div class="titulo">Status</div>
         <div class="${classe}">${status}</div>
