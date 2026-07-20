@@ -139,8 +139,30 @@ pesquisa.addEventListener("input",()=>{
     );
 
     if(!cliente){
-        resultado.innerHTML="<h3>Cliente não encontrado.</h3>";
-        return;
+        if (!cliente) {
+
+    resultado.innerHTML = `
+        <div class="nao-encontrado">
+
+            <div class="icone">🔍</div>
+
+            <h2>Cliente não encontrado</h2>
+
+            <p>
+                Verifique se o PPOE ou IP foi digitado corretamente.
+            </p>
+
+            <div class="dica">
+                <strong>💡 Dica</strong><br>
+                • Pesquise pelo PPOE completo ou parte dele.<br>
+                • Você também pode pesquisar pelo IP.
+            </div>
+
+        </div>
+    `;
+
+    return;
+}
     }
 
     let status=cliente.status;
