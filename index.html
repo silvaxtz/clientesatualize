@@ -7,132 +7,99 @@
 
     <link rel="manifest" href="manifest.json">
     <link rel="stylesheet" href="style.css">
-
     <meta name="theme-color" content="#00b050">
+
+    <!-- Biblioteca para ler Excel (SheetJS) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 </head>
 <body>
 
 <!-- LOGIN -->
 <div id="loginTela" class="container">
-
     <img src="logo.png" class="logo" alt="Atualize">
-
     <h1>Entrar</h1>
 
-    <input
-        type="text"
-        id="usuario"
-        placeholder="Usuário"
-        autocomplete="username">
-
-    <input
-        type="password"
-        id="senha"
-        placeholder="Senha"
-        autocomplete="current-password">
+    <input type="text" id="usuario" placeholder="Usuário" autocomplete="username">
+    <input type="password" id="senha" placeholder="Senha" autocomplete="current-password">
 
     <button id="btnLogin">Entrar</button>
-
     <div id="erroLogin"></div>
-
 </div>
 
 <!-- SISTEMA -->
 <div id="sistema" class="container" style="display:none;">
-
     <div class="topo">
-
         <span id="usuarioLogado"></span>
-
         <div>
             <button id="btnAdmin" style="display:none;">👑 Admin</button>
             <button id="btnSair">Sair</button>
         </div>
-
     </div>
 
     <img src="logo.png" class="logo" alt="Atualize">
-
     <h1>Pesquisa de Clientes</h1>
 
-    <input
-        type="text"
-        id="pesquisa"
-        placeholder="Digite o PPOE ou IP..."
-        autocomplete="off">
-
+    <input type="text" id="pesquisa" placeholder="Digite o PPOE ou IP..." autocomplete="off">
+    
     <div id="resultado"></div>
-
 </div>
 
 <!-- PAINEL ADMIN -->
 <div id="painelAdmin" class="container" style="display:none;">
-
     <div class="topo">
-
         <h2>👑 Painel Administrativo</h2>
-
-        <button id="fecharAdmin">
-            Fechar
-        </button>
-
+        <button id="fecharAdmin">Fechar</button>
     </div>
 
     <div class="cards-admin">
-
         <div class="card-admin">
             <span>👥 Clientes</span>
             <h2 id="totalClientes">0</h2>
         </div>
-
         <div class="card-admin">
             <span>📡 Painéis</span>
             <h2 id="totalPaineis">0</h2>
         </div>
-
         <div class="card-admin">
             <span>🟢 Bom</span>
             <h2 id="totalBom">0</h2>
         </div>
-
         <div class="card-admin">
             <span>🟡 Médio</span>
             <h2 id="totalMedio">0</h2>
         </div>
-
         <div class="card-admin">
             <span>🔴 Ruim</span>
             <h2 id="totalRuim">0</h2>
         </div>
-
     </div>
 
     <hr style="margin:30px 0;">
 
     <h2>📈 Top Painéis</h2>
-
     <div id="rankingPaineis"></div>
 
     <hr style="margin:30px 0;">
 
     <h2>📊 Saúde da Rede</h2>
-
     <div class="barra-saude">
-        <div id="barraSaude"></div>
+        <div id="barraSaude" style="width: 0%; height: 10px; background-color: #00b050;"></div>
     </div>
-
     <p id="textoSaude"></p>
 
     <hr style="margin:30px 0;">
 
-    <button id="baixarJson">
-        📥 Baixar clientes.json
-    </button>
+    <h2>🔄 Importar Planilha</h2>
+    <div style="margin-bottom: 20px;">
+        <input type="file" id="inputExcel" accept=".xlsx, .xls" style="margin-bottom: 10px;">
+        <br>
+        <button id="btnImportarExcel">Carregar e Atualizar Dashboard</button>
+    </div>
 
-    <button id="copiarEstatisticas">
-        📋 Copiar Estatísticas
-    </button>
+    <hr style="margin:30px 0;">
 
+    <button id="baixarJson">📥 Baixar clientes.json</button>
+    <button id="copiarEstatisticas">📋 Copiar Estatísticas</button>
 </div>
 
 <script src="script.js"></script>
