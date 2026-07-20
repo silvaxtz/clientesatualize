@@ -17,7 +17,7 @@ const usuarios = [
 
 const loginTela = document.getElementById("loginTela");
 const sistema = document.getElementById("sistema");
-const painelAdmin = document.getElementById("painelAdmin"); // Adicionado elemento do painel
+const painelAdmin = document.getElementById("painelAdmin"); 
 
 const usuarioInput = document.getElementById("usuario");
 const senhaInput = document.getElementById("senha");
@@ -26,7 +26,7 @@ const erroLogin = document.getElementById("erroLogin");
 const btnLogin = document.getElementById("btnLogin");
 const btnSair = document.getElementById("btnSair");
 const btnAdmin = document.getElementById("btnAdmin");
-const fecharAdmin = document.getElementById("fecharAdmin"); // Botão de fechar o painel
+const fecharAdmin = document.getElementById("fecharAdmin"); 
 const usuarioLogado = document.getElementById("usuarioLogado");
 
 // =========================
@@ -103,28 +103,32 @@ function formatarIP(ip){
     return ip;
 }
 
-// Carrega clientes
+// Carrega clientes do JSON inicial (se existir)
 fetch("clientes.json")
-.then(res=>res.json())
-.then(data=>{
-    clientes=data;
-    atualizarDashboard(); // Atualiza os dados invisivelmente no fundo
-});
+.then(res => {
+    if (!res.ok) throw new Error("Sem clientes.json");
+    return res.json();
+})
+.then(data => {
+    clientes = data;
+    atualizarDashboard();
+})
+.catch(err => console.log("Arquivo JSON ainda não existe ou está vazio."));
 
-const pesquisa=document.getElementById("pesquisa");
-const resultado=document.getElementById("resultado");
+const pesquisa = document.getElementById("pesquisa");
+const resultado = document.getElementById("resultado");
 
-pesquisa.addEventListener("input",()=>{
-    const texto=pesquisa.value.toLowerCase().trim();
+pesquisa.addEventListener("input", () => {
+    const texto = pesquisa.value.toLowerCase().trim();
 
-    if(texto===""){
-        resultado.innerHTML="";
+    if (texto === "") {
+        resultado.innerHTML = "";
         return;
     }
 
-    const cliente=clientes.find(c=>
-        (c.ppoe||"").toLowerCase().includes(texto) ||
-        String(c.ip||"").includes(texto)
+    const cliente = clientes.find(c =>
+        (c.ppoe || "").toLowerCase().includes(texto) ||
+        String(c.ip || "").includes(texto)
     );
 
     if (!cliente) {
@@ -143,21 +147,21 @@ pesquisa.addEventListener("input",()=>{
         return;
     }
 
-    let status=cliente.status;
-    let classe="";
+    let status = cliente.status;
+    let classe = "";
 
-    if(status==3){
-        status="🟢 Bom";
-        classe="status-bom";
-    }else if(status==2){
-        status="🟡 Médio";
-        classe="status-medio";
-    }else{
-        status="🔴 Ruim";
-        classe="status-ruim";
+    if (status == 3) {
+        status = "🟢 Bom";
+        classe = "status-bom";
+    } else if (status == 2) {
+        status = "🟡 Médio";
+        classe = "status-medio";
+    } else {
+        status = "🔴 Ruim";
+        classe = "status-ruim";
     }
 
-    resultado.innerHTML=`
+    resultado.innerHTML = `
     <div class="campo">
         <div class="titulo">PPOE</div>
         <div class="valor">${cliente.ppoe}</div>
@@ -183,10 +187,11 @@ pesquisa.addEventListener("input",()=>{
     `;
 });
 
-function copiar(texto){
+// Tornamos a função global para os botões do HTML funcionarem
+window.copiar = function(texto) {
     navigator.clipboard.writeText(texto);
     alert("Copiado!");
-}
+};
 
 
 // =========================
@@ -242,7 +247,7 @@ function atualizarDashboard() {
     top10.forEach((item, index) => {
         const linha = document.createElement("div");
         linha.innerHTML = `<strong>${index + 1}º ${item[0]}</strong> - ${item[1]} clientes`;
-        linha.style.padding = "5px 0"; // Estilo básico via JS
+        linha.style.padding = "5px 0";
         linha.style.borderBottom = "1px solid #ddd";
         divRanking.appendChild(linha);
     });
@@ -273,4 +278,72 @@ document.getElementById("baixarJson").addEventListener("click", () => {
     a.download = "clientes.json";
     a.click();
     URL.revokeObjectURL(a.href);
+});
+
+// =========================
+// IMPORTAÇÃO DE EXCEL
+// =========================
+
+const inputExcel = document.getElementById("inputExcel");
+const btnImportarExcel = document.getElementById("btnImportarExcel");
+
+btnImportarExcel.addEventListener("click", () => {
+    const arquivo = inputExcel.files[0];
+    
+    if (!arquivo) {
+        alert("Por favor, selecione uma planilha Excel (.xlsx) primeiro.");
+        return;
+    }
+
+    const reader = new FileReader();
+
+    reader.onload = (e) => {
+        const data = new Uint8Array(e.target.result);
+        const workbook = XLSX.read(data, { type: "array" });
+
+        // Pega a primeira aba da planilha
+        const primeiraAba = workbook.SheetNames[0];
+        const worksheet = workbook.Sheets[primeiraAba];
+
+        // Converte a planilha para um array de objetos
+        const clientesExcel = XLSX.utils.sheet_to_json(worksheet);
+
+        let novosAdicionados = 0;
+        let duplicadosIgnorados = 0;
+
+        clientesExcel.forEach(linha => {
+            const ppoe = String(linha.PPOE || linha.ppoe || "").trim();
+            const ip = String(linha.IP || linha.ip || "").trim();
+            const painel = linha.Painel || linha.painel || "Desconhecido";
+            const sinal = linha.Sinal || linha.sinal || "";
+            const status = linha.Status || linha.status || 1;
+
+            if (!ppoe && !ip) return; 
+
+            // Validação de Duplicados
+            const jaExiste = clientes.find(c => 
+                (c.ppoe && c.ppoe === ppoe) || 
+                (c.ip && c.ip === ip)
+            );
+
+            if (!jaExiste) {
+                clientes.push({
+                    ppoe: ppoe,
+                    painel: painel,
+                    ip: ip,
+                    sinal: sinal,
+                    status: status
+                });
+                novosAdicionados++;
+            } else {
+                duplicadosIgnorados++;
+            }
+        });
+
+        atualizarDashboard();
+        alert(`✅ Importação Concluída!\n\nNovos clientes adicionados: ${novosAdicionados}\nClientes duplicados ignorados: ${duplicadosIgnorados}`);
+        inputExcel.value = "";
+    };
+
+    reader.readAsArrayBuffer(arquivo);
 });
