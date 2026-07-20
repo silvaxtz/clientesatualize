@@ -6,7 +6,7 @@
 }
 
 body{
-    background:#0f172a;
+    background:#f4f7fb;
     display:flex;
     justify-content:center;
     align-items:center;
@@ -17,83 +17,108 @@ body{
 .container{
     width:100%;
     max-width:500px;
-    background:#1e293b;
-    border-radius:18px;
-    padding:25px;
-    box-shadow:0 0 25px rgba(0,0,0,.35);
+    background:#ffffff;
+    border-radius:20px;
+    padding:30px;
+    box-shadow:0 12px 35px rgba(0,0,0,.12);
+    border:1px solid #e5e7eb;
 }
 
 .logo{
-    width:180px;
+    width:240px;
     display:block;
     margin:0 auto 20px;
 }
 
 h1{
     text-align:center;
-    color:#fff;
+    color:#0f172a;
     margin-bottom:20px;
-    font-size:26px;
+    font-size:28px;
 }
 
 #pesquisa{
     width:100%;
     padding:16px;
-    border:none;
-    border-radius:10px;
+    border:2px solid #d1d5db;
+    border-radius:12px;
     font-size:18px;
     outline:none;
     margin-bottom:20px;
+    transition:.2s;
+    background:#fff;
+    color:#111827;
+}
+
+#pesquisa:focus{
+    border-color:#00b050;
+    box-shadow:0 0 0 4px rgba(0,176,80,.15);
 }
 
 #resultado{
-    background:#0f172a;
-    border-radius:12px;
-    padding:18px;
-    color:#fff;
+    background:#f8fafc;
+    border:1px solid #e5e7eb;
+    border-radius:14px;
+    padding:20px;
+    color:#111827;
     min-height:120px;
 }
 
 .campo{
-    margin-bottom:12px;
+    margin-bottom:14px;
+    padding-bottom:10px;
+    border-bottom:1px solid #e5e7eb;
+}
+
+.campo:last-child{
+    border-bottom:none;
 }
 
 .titulo{
-    color:#22c55e;
+    color:#00b050;
     font-weight:bold;
+    margin-bottom:4px;
 }
 
 .valor{
     font-size:18px;
+    color:#111827;
 }
 
 .status-bom{
-    color:#22c55e;
+    color:#16a34a;
     font-weight:bold;
 }
 
 .status-medio{
-    color:#facc15;
+    color:#ca8a04;
     font-weight:bold;
 }
 
 .status-ruim{
-    color:#ef4444;
+    color:#dc2626;
     font-weight:bold;
 }
 
 button{
-    margin-top:10px;
+    margin-top:12px;
     width:100%;
-    padding:12px;
+    padding:14px;
     border:none;
-    border-radius:8px;
+    border-radius:12px;
     background:#00b050;
     color:#fff;
     cursor:pointer;
     font-size:16px;
+    font-weight:bold;
+    transition:.2s;
 }
 
 button:hover{
     background:#009640;
+    transform:translateY(-1px);
+}
+
+button:active{
+    transform:translateY(0);
 }
