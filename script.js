@@ -11,7 +11,21 @@ const usuarios = [
     { usuario: "nubia", senha: "suporteatlz", tipo: "tecnico" },
     { usuario: "jerbson", senha: "suporteatlz", tipo: "tecnico" }
 ];
+// =========================
+// PAINEL ADMIN
+// =========================
 
+const painelAdmin = document.getElementById("painelAdmin");
+const fecharAdmin = document.getElementById("fecharAdmin");
+
+const totalClientes = document.getElementById("totalClientes");
+const totalPaineis = document.getElementById("totalPaineis");
+const totalBom = document.getElementById("totalBom");
+const totalMedio = document.getElementById("totalMedio");
+const totalRuim = document.getElementById("totalRuim");
+
+const baixarJson = document.getElementById("baixarJson");
+const copiarEstatisticas = document.getElementById("copiarEstatisticas");
 // =========================
 // ELEMENTOS
 // =========================
