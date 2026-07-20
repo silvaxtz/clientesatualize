@@ -9,11 +9,10 @@
     <link rel="stylesheet" href="style.css">
     <meta name="theme-color" content="#00b050">
 
-    <!-- Biblioteca para ler Excel (SheetJS) -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <!-- Biblioteca para ler Excel (Arquivo Local) -->
+    <script src="xlsx.full.min.js"></script>
     
     <style>
-        /* Estilos do Histórico (Adicionado direto aqui para não precisar mexer no style.css) */
         .historico-container {
             display: flex;
             gap: 8px;
@@ -62,7 +61,6 @@
 
     <input type="text" id="pesquisa" placeholder="Digite o PPOE ou IP..." autocomplete="off">
     
-    <!-- Histórico de pesquisas recentes -->
     <div id="historicoPesquisas" class="historico-container"></div>
     
     <div id="resultado"></div>
