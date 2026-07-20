@@ -1,4 +1,4 @@
-const CACHE = "atualize-v2";
+const CACHE = "atualize-v3";
 
 const arquivos = [
     "./",
@@ -7,7 +7,8 @@ const arquivos = [
     "./script.js",
     "./clientes.json",
     "./logo.png",
-    "./manifest.json"
+    "./manifest.json",
+    "./service-worker.js"
 ];
 
 // Instala e salva os arquivos
@@ -36,22 +37,28 @@ self.addEventListener("activate", event => {
 
 // Usa o cache, mas tenta atualizar em segundo plano
 self.addEventListener("fetch", event => {
+
     if (event.request.method !== "GET") return;
 
     event.respondWith(
         caches.match(event.request).then(async cached => {
-            try {
+
+            try{
+
                 const network = await fetch(event.request);
 
-                // Atualiza o cache com a versão mais recente
                 const cache = await caches.open(CACHE);
                 cache.put(event.request, network.clone());
 
                 return cached || network;
-            } catch (e) {
-                // Se estiver sem internet, usa o cache
+
+            }catch{
+
                 return cached;
+
             }
+
         })
     );
+
 });
