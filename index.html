@@ -30,7 +30,8 @@
 <div id="sistema" class="container" style="display:none;">
     <div class="topo">
         <span id="usuarioLogado"></span>
-        <div>
+        <div style="display: flex; gap: 10px; align-items: center;">
+            <button id="btnTema" style="background: none; border: none; font-size: 20px; padding: 0; width: auto; box-shadow: none;">🌙</button>
             <button id="btnAdmin" style="display:none;">👑 Admin</button>
             <button id="btnSair">Sair</button>
         </div>
@@ -40,6 +41,9 @@
     <h1>Pesquisa de Clientes</h1>
 
     <input type="text" id="pesquisa" placeholder="Digite o PPOE ou IP..." autocomplete="off">
+    
+    <!-- Histórico de pesquisas recentes -->
+    <div id="historicoPesquisas" class="historico-container"></div>
     
     <div id="resultado"></div>
 </div>
@@ -78,14 +82,6 @@
 
     <h2>📈 Top Painéis</h2>
     <div id="rankingPaineis"></div>
-
-    <hr style="margin:30px 0;">
-
-    <h2>📊 Saúde da Rede</h2>
-    <div class="barra-saude">
-        <div id="barraSaude" style="width: 0%; height: 10px; background-color: #00b050;"></div>
-    </div>
-    <p id="textoSaude"></p>
 
     <hr style="margin:30px 0;">
 
