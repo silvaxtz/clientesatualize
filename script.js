@@ -29,36 +29,10 @@ const btnAdmin = document.getElementById("btnAdmin");
 const fecharAdmin = document.getElementById("fecharAdmin"); 
 const usuarioLogado = document.getElementById("usuarioLogado");
 
-// Elementos Tema Escuro e Pesquisa
-const btnTema = document.getElementById("btnTema");
+// Elementos de Pesquisa
 const pesquisa = document.getElementById("pesquisa");
 const resultado = document.getElementById("resultado");
 const divHistorico = document.getElementById("historicoPesquisas");
-
-// =========================
-// TEMA ESCURO
-// =========================
-
-function carregarTema() {
-    const temaSalvo = localStorage.getItem("tema_atualize");
-    if (temaSalvo === "escuro") {
-        document.body.classList.add("dark-theme");
-        btnTema.textContent = "☀️";
-    }
-}
-
-btnTema.addEventListener("click", () => {
-    document.body.classList.toggle("dark-theme");
-    if (document.body.classList.contains("dark-theme")) {
-        localStorage.setItem("tema_atualize", "escuro");
-        btnTema.textContent = "☀️";
-    } else {
-        localStorage.setItem("tema_atualize", "claro");
-        btnTema.textContent = "🌙";
-    }
-});
-
-carregarTema();
 
 // =========================
 // LOGIN
@@ -219,7 +193,7 @@ window.copiarEsalvar = function(textoParaCopiar, ppoeParaHistorico) {
     
     // Salva a pesquisa útil no histórico
     let historico = JSON.parse(localStorage.getItem("historico_pesquisas") || "[]");
-    historico = historico.filter(h => h !== ppoeParaHistorico); // Remove se já existir (para não duplicar)
+    historico = historico.filter(h => h !== ppoeParaHistorico); // Remove se já existir
     historico.unshift(ppoeParaHistorico); // Adiciona no início
     if(historico.length > 5) historico.pop(); // Mantém apenas os últimos 5
     
