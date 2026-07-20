@@ -1,4 +1,4 @@
-const CACHE = "atualize-v1";
+const CACHE = "atualize-v2";
 
 const arquivos = [
     "./",
@@ -10,16 +10,48 @@ const arquivos = [
     "./manifest.json"
 ];
 
-self.addEventListener("install", e => {
-    e.waitUntil(
+// Instala e salva os arquivos
+self.addEventListener("install", event => {
+    event.waitUntil(
         caches.open(CACHE).then(cache => cache.addAll(arquivos))
     );
+
+    self.skipWaiting();
 });
 
-self.addEventListener("fetch", e => {
-    e.respondWith(
-        caches.match(e.request).then(resp => {
-            return resp || fetch(e.request);
+// Remove caches antigos
+self.addEventListener("activate", event => {
+    event.waitUntil(
+        caches.keys().then(keys =>
+            Promise.all(
+                keys
+                    .filter(key => key !== CACHE)
+                    .map(key => caches.delete(key))
+            )
+        )
+    );
+
+    self.clients.claim();
+});
+
+// Usa o cache, mas tenta atualizar em segundo plano
+self.addEventListener("fetch", event => {
+    if (event.request.method !== "GET") return;
+
+    event.respondWith(
+        caches.match(event.request).then(async cached => {
+            try {
+                const network = await fetch(event.request);
+
+                // Atualiza o cache com a versão mais recente
+                const cache = await caches.open(CACHE);
+                cache.put(event.request, network.clone());
+
+                return cached || network;
+            } catch (e) {
+                // Se estiver sem internet, usa o cache
+                return cached;
+            }
         })
     );
 });
