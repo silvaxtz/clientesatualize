@@ -11,6 +11,27 @@
 
     <!-- Biblioteca para ler Excel (SheetJS) -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    
+    <style>
+        /* Estilos do Histórico (Adicionado direto aqui para não precisar mexer no style.css) */
+        .historico-container {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+            justify-content: center;
+        }
+        .btn-historico {
+            background-color: #e0e0e0;
+            color: #333;
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 12px;
+            cursor: pointer;
+            border: none;
+            width: auto;
+        }
+    </style>
 </head>
 <body>
 
@@ -31,7 +52,6 @@
     <div class="topo">
         <span id="usuarioLogado"></span>
         <div style="display: flex; gap: 10px; align-items: center;">
-            <button id="btnTema" style="background: none; border: none; font-size: 20px; padding: 0; width: auto; box-shadow: none;">🌙</button>
             <button id="btnAdmin" style="display:none;">👑 Admin</button>
             <button id="btnSair">Sair</button>
         </div>
