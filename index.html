@@ -45,7 +45,7 @@
         <span id="usuarioLogado"></span>
 
         <div>
-            <button id="btnAdmin" style="display:none;">Admin</button>
+            <button id="btnAdmin" style="display:none;">👑 Admin</button>
             <button id="btnSair">Sair</button>
         </div>
 
@@ -65,10 +65,62 @@
 
 </div>
 
+<!-- PAINEL ADMIN -->
+<div id="painelAdmin" class="container" style="display:none;">
+
+    <div class="topo">
+
+        <h2>👑 Painel Administrativo</h2>
+
+        <button id="fecharAdmin">
+            Fechar
+        </button>
+
+    </div>
+
+    <div class="cards-admin">
+
+        <div class="card-admin">
+            <span>👥 Clientes</span>
+            <h2 id="totalClientes">0</h2>
+        </div>
+
+        <div class="card-admin">
+            <span>📡 Painéis</span>
+            <h2 id="totalPaineis">0</h2>
+        </div>
+
+        <div class="card-admin">
+            <span>🟢 Bom</span>
+            <h2 id="totalBom">0</h2>
+        </div>
+
+        <div class="card-admin">
+            <span>🟡 Médio</span>
+            <h2 id="totalMedio">0</h2>
+        </div>
+
+        <div class="card-admin">
+            <span>🔴 Ruim</span>
+            <h2 id="totalRuim">0</h2>
+        </div>
+
+    </div>
+
+    <button id="baixarJson">
+        📥 Baixar clientes.json
+    </button>
+
+    <button id="copiarEstatisticas">
+        📋 Copiar Estatísticas
+    </button>
+
+</div>
+
 <script src="script.js"></script>
 
 <script>
-if ("serviceWorker" in navigator){
+if ("serviceWorker" in navigator"){
     navigator.serviceWorker.register("service-worker.js");
 }
 </script>
