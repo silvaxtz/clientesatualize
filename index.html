@@ -2,15 +2,28 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="style.css">
     <title>Atualize Telecom - Sistema</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <div id="sistema">
+    <!-- TELA DE LOGIN -->
+    <div id="loginTela">
+        <h2>Login Atualize Telecom</h2>
+        <input type="text" id="usuario" placeholder="Usuário">
+        <input type="password" id="senha" placeholder="Senha">
+        <button id="btnLogin">Entrar</button>
+        <p id="erroLogin" style="color:red;"></p>
+    </div>
+
+    <!-- TELA DO SISTEMA -->
+    <div id="sistema" style="display:none;">
+        <div id="usuarioLogado"></div>
+        <button id="btnAdmin">Painel Admin</button>
+        <button id="btnSair">Sair</button>
+        
         <input type="text" id="pesquisa" placeholder="Digite o PPOE ou IP..." autocomplete="off">
         
-        <!-- Novo seletor de painéis -->
         <select id="filtroPainel">
             <option value="">Filtrar por Painel (Torre)...</option>
         </select>
@@ -19,7 +32,22 @@
         <div id="resultado"></div>
     </div>
 
-    <!-- Scripts necessários -->
+    <!-- TELA ADMIN -->
+    <div id="painelAdmin" style="display:none;">
+        <h2>Painel Admin</h2>
+        <button id="fecharAdmin">Voltar</button>
+        <div id="totalClientes"></div>
+        <div id="totalPaineis"></div>
+        <div id="totalBom"></div>
+        <div id="totalMedio"></div>
+        <div id="totalRuim"></div>
+        <div id="rankingPaineis"></div>
+        <button id="copiarEstatisticas">Copiar Estatísticas</button>
+        <button id="baixarJson">Baixar JSON</button>
+        <input type="file" id="inputExcel">
+        <button id="btnImportarExcel">Importar Excel</button>
+    </div>
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
     <script src="script.js"></script>
 </body>
