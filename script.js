@@ -29,6 +29,37 @@ const btnAdmin = document.getElementById("btnAdmin");
 const fecharAdmin = document.getElementById("fecharAdmin"); 
 const usuarioLogado = document.getElementById("usuarioLogado");
 
+// Elementos Tema Escuro e Pesquisa
+const btnTema = document.getElementById("btnTema");
+const pesquisa = document.getElementById("pesquisa");
+const resultado = document.getElementById("resultado");
+const divHistorico = document.getElementById("historicoPesquisas");
+
+// =========================
+// TEMA ESCURO
+// =========================
+
+function carregarTema() {
+    const temaSalvo = localStorage.getItem("tema_atualize");
+    if (temaSalvo === "escuro") {
+        document.body.classList.add("dark-theme");
+        btnTema.textContent = "☀️";
+    }
+}
+
+btnTema.addEventListener("click", () => {
+    document.body.classList.toggle("dark-theme");
+    if (document.body.classList.contains("dark-theme")) {
+        localStorage.setItem("tema_atualize", "escuro");
+        btnTema.textContent = "☀️";
+    } else {
+        localStorage.setItem("tema_atualize", "claro");
+        btnTema.textContent = "🌙";
+    }
+});
+
+carregarTema();
+
 // =========================
 // LOGIN
 // =========================
@@ -76,6 +107,8 @@ function carregarSistema() {
         salvo.tipo === "admin"
             ? "inline-block"
             : "none";
+            
+    renderizarHistorico();
 }
 
 btnSair.addEventListener("click", () => {
@@ -86,7 +119,7 @@ btnSair.addEventListener("click", () => {
 carregarSistema();
 
 // =========================
-// CLIENTES
+// CLIENTES & HISTÓRICO
 // =========================
 
 let clientes = [];
@@ -103,7 +136,7 @@ function formatarIP(ip){
     return ip;
 }
 
-// Carrega clientes do JSON inicial (se existir)
+// Carrega clientes do JSON inicial
 fetch("clientes.json")
 .then(res => {
     if (!res.ok) throw new Error("Sem clientes.json");
@@ -114,9 +147,6 @@ fetch("clientes.json")
     atualizarDashboard();
 })
 .catch(err => console.log("Arquivo JSON ainda não existe ou está vazio."));
-
-const pesquisa = document.getElementById("pesquisa");
-const resultado = document.getElementById("resultado");
 
 pesquisa.addEventListener("input", () => {
     const texto = pesquisa.value.toLowerCase().trim();
@@ -137,11 +167,6 @@ pesquisa.addEventListener("input", () => {
                 <div class="icone">🔍</div>
                 <h2>Cliente não encontrado</h2>
                 <p>Verifique se o PPOE ou IP foi digitado corretamente.</p>
-                <div class="dica">
-                    <strong>💡 Dica</strong><br>
-                    • Pesquise pelo PPOE completo ou parte dele.<br>
-                    • Você também pode pesquisar pelo IP.
-                </div>
             </div>
         `;
         return;
@@ -182,30 +207,54 @@ pesquisa.addEventListener("input", () => {
         <div class="titulo">Status</div>
         <div class="${classe}">${status}</div>
     </div>
-    <button onclick="copiar('${formatarIP(cliente.ip)}')">Copiar IP</button>
-    <button onclick="copiar('${cliente.ppoe}')">Copiar PPOE</button>
+    <button onclick="copiarEsalvar('${formatarIP(cliente.ip)}', '${cliente.ppoe}')">Copiar IP</button>
+    <button onclick="copiarEsalvar('${cliente.ppoe}', '${cliente.ppoe}')">Copiar PPOE</button>
     `;
 });
 
-// Tornamos a função global para os botões do HTML funcionarem
-window.copiar = function(texto) {
-    navigator.clipboard.writeText(texto);
+// Tornamos a função global e adicionamos ao histórico
+window.copiarEsalvar = function(textoParaCopiar, ppoeParaHistorico) {
+    navigator.clipboard.writeText(textoParaCopiar);
     alert("Copiado!");
+    
+    // Salva a pesquisa útil no histórico
+    let historico = JSON.parse(localStorage.getItem("historico_pesquisas") || "[]");
+    historico = historico.filter(h => h !== ppoeParaHistorico); // Remove se já existir (para não duplicar)
+    historico.unshift(ppoeParaHistorico); // Adiciona no início
+    if(historico.length > 5) historico.pop(); // Mantém apenas os últimos 5
+    
+    localStorage.setItem("historico_pesquisas", JSON.stringify(historico));
+    renderizarHistorico();
 };
 
+function renderizarHistorico() {
+    let historico = JSON.parse(localStorage.getItem("historico_pesquisas") || "[]");
+    if(historico.length === 0) {
+        divHistorico.innerHTML = "";
+        return;
+    }
+    
+    divHistorico.innerHTML = historico.map(h => 
+        `<button class="btn-historico" onclick="usarHistorico('${h}')">🕒 ${h}</button>`
+    ).join("");
+}
+
+window.usarHistorico = function(termo) {
+    pesquisa.value = termo;
+    // Força o evento de input para acionar a busca automaticamente
+    pesquisa.dispatchEvent(new Event('input'));
+};
 
 // =========================
 // DASHBOARD ADMIN
 // =========================
 
-// Abrir painel
 btnAdmin.addEventListener("click", () => {
     sistema.style.display = "none";
     painelAdmin.style.display = "block";
     atualizarDashboard();
 });
 
-// Fechar painel
 fecharAdmin.addEventListener("click", () => {
     painelAdmin.style.display = "none";
     sistema.style.display = "block";
@@ -214,35 +263,27 @@ fecharAdmin.addEventListener("click", () => {
 function atualizarDashboard() {
     if (clientes.length === 0) return;
 
-    // Lógica de contagem
     const totalClientes = clientes.length;
     const paineis = [...new Set(clientes.map(c => c.painel))];
     const bom = clientes.filter(c => Number(c.status) === 3).length;
     const medio = clientes.filter(c => Number(c.status) === 2).length;
     const ruim = clientes.filter(c => Number(c.status) !== 3 && Number(c.status) !== 2).length;
     
-    // Atualiza os Cards
     document.getElementById("totalClientes").textContent = totalClientes;
     document.getElementById("totalPaineis").textContent = paineis.length;
     document.getElementById("totalBom").textContent = bom;
     document.getElementById("totalMedio").textContent = medio;
     document.getElementById("totalRuim").textContent = ruim;
 
-    // Saúde da Rede
-    const saude = totalClientes ? Math.round((bom / totalClientes) * 100) : 0;
-    document.getElementById("barraSaude").style.width = `${saude}%`;
-    document.getElementById("textoSaude").textContent = `Saúde da rede: ${saude}%`;
-
-    // Ranking Top 10 Painéis
     const ranking = {};
     clientes.forEach(c => ranking[c.painel] = (ranking[c.painel] || 0) + 1);
     
     const top10 = Object.entries(ranking)
-        .sort((a, b) => b[1] - a[1]) // Ordena do maior para o menor
-        .slice(0, 10); // Pega os 10 primeiros
+        .sort((a, b) => b[1] - a[1]) 
+        .slice(0, 10); 
     
     const divRanking = document.getElementById("rankingPaineis");
-    divRanking.innerHTML = ""; // Limpa antes de preencher
+    divRanking.innerHTML = ""; 
     
     top10.forEach((item, index) => {
         const linha = document.createElement("div");
@@ -253,7 +294,6 @@ function atualizarDashboard() {
     });
 }
 
-// Botão Copiar Estatísticas
 document.getElementById("copiarEstatisticas").addEventListener("click", () => {
     const total = clientes.length;
     const bom = clientes.filter(c => Number(c.status) === 3).length;
@@ -270,7 +310,6 @@ document.getElementById("copiarEstatisticas").addEventListener("click", () => {
     alert("Estatísticas copiadas!");
 });
 
-// Botão Baixar JSON
 document.getElementById("baixarJson").addEventListener("click", () => {
     const blob = new Blob([JSON.stringify(clientes, null, 2)], { type: "application/json" });
     const a = document.createElement("a");
@@ -300,12 +339,8 @@ btnImportarExcel.addEventListener("click", () => {
     reader.onload = (e) => {
         const data = new Uint8Array(e.target.result);
         const workbook = XLSX.read(data, { type: "array" });
-
-        // Pega a primeira aba da planilha
         const primeiraAba = workbook.SheetNames[0];
         const worksheet = workbook.Sheets[primeiraAba];
-
-        // Converte a planilha para um array de objetos
         const clientesExcel = XLSX.utils.sheet_to_json(worksheet);
 
         let novosAdicionados = 0;
@@ -315,12 +350,11 @@ btnImportarExcel.addEventListener("click", () => {
             const ppoe = String(linha.PPOE || linha.ppoe || "").trim();
             const ip = String(linha.IP || linha.ip || "").trim();
             const painel = linha.Painel || linha.painel || "Desconhecido";
-            const sinal = linha.Sinal || linha.sinal || "";
+            const sinal = String(linha.Sinal || linha.sinal || "");
             const status = linha.Status || linha.status || 1;
 
             if (!ppoe && !ip) return; 
 
-            // Validação de Duplicados
             const jaExiste = clientes.find(c => 
                 (c.ppoe && c.ppoe === ppoe) || 
                 (c.ip && c.ip === ip)
