@@ -272,3 +272,92 @@ button:active{
 #copiarEstatisticas:hover{
     background:#6d28d9;
 }
+/* =====================================
+   DASHBOARD ADMIN
+===================================== */
+
+#rankingPaineis{
+    margin-top:20px;
+}
+
+.itemPainel{
+    margin-bottom:18px;
+}
+
+.itemPainel span{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:8px;
+    font-weight:bold;
+    color:#0f172a;
+}
+
+.barraPainel{
+    width:100%;
+    height:18px;
+    background:#e5e7eb;
+    border-radius:30px;
+    overflow:hidden;
+}
+
+.preenchimento{
+    height:100%;
+    border-radius:30px;
+    background:linear-gradient(90deg,#00b050,#27d46b);
+    transition:width .6s ease;
+}
+
+.barra-saude{
+    width:100%;
+    height:28px;
+    background:#e5e7eb;
+    border-radius:30px;
+    overflow:hidden;
+    margin-top:15px;
+}
+
+#barraSaude{
+    width:0%;
+    height:100%;
+    border-radius:30px;
+    background:linear-gradient(90deg,#00b050,#00d26a);
+    transition:width .8s ease;
+}
+
+#textoSaude{
+    margin-top:12px;
+    text-align:center;
+    font-weight:bold;
+    color:#0f172a;
+    font-size:18px;
+}
+
+/* Botões do Admin */
+
+#baixarJson,
+#copiarEstatisticas,
+#fecharAdmin{
+    margin-top:15px;
+}
+
+/* Rolagem para muitos painéis */
+
+#rankingPaineis{
+    max-height:350px;
+    overflow-y:auto;
+    padding-right:6px;
+}
+
+#rankingPaineis::-webkit-scrollbar{
+    width:8px;
+}
+
+#rankingPaineis::-webkit-scrollbar-thumb{
+    background:#00b050;
+    border-radius:20px;
+}
+
+#rankingPaineis::-webkit-scrollbar-track{
+    background:#ececec;
+}
