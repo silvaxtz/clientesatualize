@@ -180,3 +180,31 @@ button:active{
     padding:10px 18px;
     font-size:14px;
 }
+.nao-encontrado{
+    text-align:center;
+    padding:25px;
+}
+
+.nao-encontrado .icone{
+    font-size:55px;
+    margin-bottom:10px;
+}
+
+.nao-encontrado h2{
+    color:#dc2626;
+    margin-bottom:10px;
+}
+
+.nao-encontrado p{
+    color:#64748b;
+    margin-bottom:20px;
+}
+
+.nao-encontrado .dica{
+    background:#f8fafc;
+    border:1px solid #e5e7eb;
+    border-radius:12px;
+    padding:15px;
+    color:#475569;
+    line-height:1.6;
+}
