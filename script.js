@@ -1,79 +1,106 @@
 let clientes = [];
 
-fetch("clientes.json")
-  .then(res => res.json())
-  .then(data => {
-    clientes = data;
-  });
-
+// Formata IP
 function formatarIP(ip) {
-  if (!ip) return "";
 
-  ip = String(ip).replace(/\D/g, "");
+    if (!ip) return "";
 
-  // Se já estiver com pontos
-  if (ip.includes(".")) return ip;
+    ip = String(ip);
 
-  // IP salvo como 12 dígitos
-  if (ip.length === 12) {
-    return `${ip.slice(0,3)}.${ip.slice(3,6)}.${ip.slice(6,9)}.${ip.slice(9,12)}`;
-  }
+    // Se já estiver com pontos
+    if (ip.includes(".")) return ip;
 
-  return ip;
+    // Mantém apenas números
+    ip = ip.replace(/\D/g, "");
+
+    // Formata IP de 12 dígitos
+    if (ip.length === 12) {
+        return ip.replace(/(\d{3})(\d{3})(\d{3})(\d{3})/, "$1.$2.$3.$4");
+    }
+
+    return ip;
 }
 
-function pesquisar() {
+// Carrega a lista de clientes
+fetch("clientes.json")
+    .then(res => res.json())
+    .then(data => {
+        clientes = data;
+    });
 
-  const texto = document
-    .getElementById("pesquisa")
-    .value
-    .toLowerCase()
-    .trim();
+const pesquisa = document.getElementById("pesquisa");
+const resultado = document.getElementById("resultado");
 
-  const resultado = document.getElementById("resultado");
+pesquisa.addEventListener("input", () => {
 
-  if (texto === "") {
-    resultado.innerHTML = "";
-    return;
-  }
+    const texto = pesquisa.value.toLowerCase().trim();
 
-  const encontrados = clientes.filter(c =>
-    (c.ppoe || "").toLowerCase().includes(texto) ||
-    String(c.ip || "").includes(texto)
-  );
+    if(texto === ""){
+        resultado.innerHTML = "";
+        return;
+    }
 
-  if (encontrados.length === 0) {
-    resultado.innerHTML =
-      "<p style='text-align:center'>Nenhum cliente encontrado.</p>";
-    return;
-  }
+    const cliente = clientes.find(c =>
+        (c.ppoe || "").toLowerCase().includes(texto) ||
+        String(c.ip || "").includes(texto)
+    );
 
-  resultado.innerHTML = encontrados.map(cliente => `
-    <div class="card">
+    if(!cliente){
+        resultado.innerHTML = "<h3>Cliente não encontrado.</h3>";
+        return;
+    }
 
-      <h2>${cliente.ppoe}</h2>
+    let status = cliente.status;
+    let classe = "";
 
-      <p><strong>Painel:</strong> ${cliente.painel}</p>
+    if(status == 3 || status == "3"){
+        status = "🟢 Bom";
+        classe = "status-bom";
+    }else if(status == 2 || status == "2"){
+        status = "🟡 Médio";
+        classe = "status-medio";
+    }else{
+        status = "🔴 Ruim";
+        classe = "status-ruim";
+    }
 
-      <p><strong>IP:</strong> ${formatarIP(cliente.ip)}</p>
+    resultado.innerHTML = `
+        <div class="campo">
+            <div class="titulo">PPOE</div>
+            <div class="valor">${cliente.ppoe}</div>
+        </div>
 
-      <p><strong>Sinal:</strong> ${cliente.sinal || "-"}</p>
+        <div class="campo">
+            <div class="titulo">Painel</div>
+            <div class="valor">${cliente.painel}</div>
+        </div>
 
-      <p><strong>Status:</strong> ${cliente.status}</p>
+        <div class="campo">
+            <div class="titulo">IP</div>
+            <div class="valor">${formatarIP(cliente.ip)}</div>
+        </div>
 
-      <button onclick="copiar('${formatarIP(cliente.ip)}')">
-        Copiar IP
-      </button>
+        <div class="campo">
+            <div class="titulo">Sinal</div>
+            <div class="valor">${cliente.sinal}</div>
+        </div>
 
-    </div>
-  `).join("");
+        <div class="campo">
+            <div class="titulo">Status</div>
+            <div class="${classe}">${status}</div>
+        </div>
+
+        <button onclick="copiar('${formatarIP(cliente.ip)}')">
+            Copiar IP
+        </button>
+
+        <button onclick="copiar('${cliente.ppoe}')">
+            Copiar PPOE
+        </button>
+    `;
+});
+
+function copiar(texto){
+    navigator.clipboard.writeText(texto);
+    alert("Copiado!");
 }
-
-function copiar(texto) {
-  navigator.clipboard.writeText(texto);
-  alert("IP copiado!");
-}
-
-document
-  .getElementById("pesquisa")
-  .addEventListener("input", pesquisar);
