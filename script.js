@@ -3,12 +3,12 @@
 // =========================
 
 const usuarios = [
-    { usuario: "adriano", senha: "Atlz@Adm2026", tipo: "admin" },
-    { usuario: "julio", senha: "suporteatlz", tipo: "tecnico" },
-    { usuario: "kristian", senha: "suporteatlz", tipo: "tecnico" },
-    { usuario: "jeciana", senha: "suporteatlz", tipo: "tecnico" },
-    { usuario: "nubia", senha: "suporteatlz", tipo: "tecnico" },
-    { usuario: "jerbson", senha: "suporteatlz", tipo: "tecnico" }
+    { usuario: "Adriano", senha: "180405a", tipo: "admin" },
+    { usuario: "Julio", senha: "suporteatlz", tipo: "tecnico" },
+    { usuario: "Kristian", senha: "suporteatlz", tipo: "tecnico" },
+    { usuario: "Jeciana", senha: "suporteatlz", tipo: "tecnico" },
+    { usuario: "Nubia", senha: "suporteatlz", tipo: "tecnico" },
+    { usuario: "Jerbson", senha: "suporteatlz", tipo: "tecnico" }
 ];
 
 // =========================
