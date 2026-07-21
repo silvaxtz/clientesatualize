@@ -322,41 +322,6 @@
     "painel": "P BREDO"
   },
   {
-    "ppoe": "mardonioantonio",
-    "ip": "192.168.177.35",
-    "sinal": "-56/-59",
-    "status": "3",
-    "painel": "P ANA"
-  },
-  {
-    "ppoe": "mariaparecidasilva",
-    "ip": "192.168.177.85",
-    "sinal": "-68/-83",
-    "status": "1",
-    "painel": "P ANA"
-  },
-  {
-    "ppoe": "josefamaria",
-    "ip": "192168177161",
-    "sinal": "-68/-71",
-    "status": "2",
-    "painel": "P ANA"
-  },
-  {
-    "ppoe": "josesebastiao",
-    "ip": "192.168.177.68",
-    "sinal": "-79/-78",
-    "status": "1",
-    "painel": "P ANA"
-  },
-  {
-    "ppoe": "valdeirlima",
-    "ip": "192.168.177.71",
-    "sinal": "-70/-72",
-    "status": "2",
-    "painel": "P ANA"
-  },
-  {
     "ppoe": "adaomenezes",
     "ip": "192168177129",
     "sinal": "-65/-66",
@@ -381,7 +346,7 @@
     "ppoe": "josearruda",
     "ip": "192.168.177.xx",
     "sinal": "-",
-    "status": "",
+    "status": "1",
     "painel": "P CANUDOS"
   },
   {
@@ -432,6 +397,41 @@
     "sinal": "-60/-61",
     "status": "3",
     "painel": "P CANUDOS"
+  },
+  {
+    "ppoe": "mardonioantonio",
+    "ip": "192.168.177.35",
+    "sinal": "-56/-59",
+    "status": "3",
+    "painel": "P ANA"
+  },
+  {
+    "ppoe": "mariaparecidasilva",
+    "ip": "192.168.177.85",
+    "sinal": "-68/-83",
+    "status": "1",
+    "painel": "P ANA"
+  },
+  {
+    "ppoe": "josefamaria",
+    "ip": "192168177161",
+    "sinal": "-68/-71",
+    "status": "2",
+    "painel": "P ANA"
+  },
+  {
+    "ppoe": "josesebastiao",
+    "ip": "192.168.177.68",
+    "sinal": "-79/-78",
+    "status": "1",
+    "painel": "P ANA"
+  },
+  {
+    "ppoe": "valdeirlima",
+    "ip": "192.168.177.71",
+    "sinal": "-70/-72",
+    "status": "2",
+    "painel": "P ANA"
   },
   {
     "ppoe": "veronicafelix",
@@ -747,5 +747,145 @@
     "sinal": "-64/-61",
     "status": "3",
     "painel": "P JUA"
+  },
+  {
+    "ppoe": "boi bravo",
+    "ip": "192.168.250.5",
+    "sinal": "-63/-67",
+    "status": "2",
+    "painel": "P MACACO"
+  },
+  {
+    "ppoe": "josefaedileuza",
+    "ip": "192168250161",
+    "sinal": "-74/-73",
+    "status": "2",
+    "painel": "P MACACO"
+  },
+  {
+    "ppoe": "josevalsouza",
+    "ip": "192168250205",
+    "sinal": "-74/-75",
+    "status": "2",
+    "painel": "P MACACO"
+  },
+  {
+    "ppoe": "jusceliosantos",
+    "ip": "192168250183",
+    "sinal": "-73/-77",
+    "status": "1",
+    "painel": "P MACACO"
+  },
+  {
+    "ppoe": "josepereira",
+    "ip": "192168250214",
+    "sinal": "-68/-71",
+    "status": "2",
+    "painel": "P MACACO"
+  },
+  {
+    "ppoe": "severinaborba",
+    "ip": "192.168.250.37",
+    "sinal": "-70/-83",
+    "status": "1",
+    "painel": "P MACACO"
+  },
+  {
+    "ppoe": "tiagoborba",
+    "ip": "192168250110",
+    "sinal": "-77/-80",
+    "status": "1",
+    "painel": "P MACACO"
+  },
+  {
+    "ppoe": "reydsonnascimento",
+    "ip": "192.168.250.89",
+    "sinal": "-70/-72",
+    "status": "2",
+    "painel": "P MELANCIA"
+  },
+  {
+    "ppoe": "ap dalvan",
+    "ip": "192.168.250.16",
+    "sinal": "-66/-66",
+    "status": "2",
+    "painel": "P MELANCIA"
+  },
+  {
+    "ppoe": "clepsondasilva",
+    "ip": "192168250184",
+    "sinal": "-65/-66",
+    "status": "2",
+    "painel": "P MELANCIA"
+  },
+  {
+    "ppoe": "francimeredacosta",
+    "ip": "192.168.250.90",
+    "sinal": "-55/-59",
+    "status": "3",
+    "painel": "P MELANCIA"
+  },
+  {
+    "ppoe": "genilsonneves",
+    "ip": "192168250131",
+    "sinal": "-73/-76",
+    "status": "1",
+    "painel": "P MELANCIA"
+  },
+  {
+    "ppoe": "jaquelinenascimento",
+    "ip": "192168250129",
+    "sinal": "-61/-67",
+    "status": "2",
+    "painel": "P MELANCIA"
+  },
+  {
+    "ppoe": "gildeteneves",
+    "ip": "192168250132",
+    "sinal": "-72/-78",
+    "status": "1",
+    "painel": "P MELANCIA"
+  },
+  {
+    "ppoe": "jessicalima",
+    "ip": "192168250138",
+    "sinal": "-73/-82",
+    "status": "1",
+    "painel": "P MELANCIA"
+  },
+  {
+    "ppoe": "juscianocavalcante",
+    "ip": "192.168.250.75",
+    "sinal": "-68/-73",
+    "status": "2",
+    "painel": "P MELANCIA"
+  },
+  {
+    "ppoe": "juliacastro",
+    "ip": "192168250157",
+    "sinal": "-70/-77",
+    "status": "1",
+    "painel": "P MELANCIA"
+  },
+  {
+    "ppoe": "rafaeldossantos",
+    "ip": "192.168.250.83",
+    "sinal": "-77/-81",
+    "status": "1",
+    "painel": "P MELANCIA"
+  },
+  {
+    "ppoe": "rodrigocabral",
+    "ip": "192.168.250.84",
+    "sinal": "-67/-70",
+    "status": "2",
+    "painel": "P MELANCIA"
+  },
+  {
+    "ppoe": "tatianapaula",
+    "ip": "192.168.250.76",
+    "sinal": "-66/-72",
+    "status": "2",
+    "painel": "P MELANCIA"
   }
 ]
