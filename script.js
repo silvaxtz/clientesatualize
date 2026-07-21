@@ -331,46 +331,72 @@ btnImportarExcel.addEventListener("click", () => {
     const reader = new FileReader();
 
     reader.onload = (e) => {
-        const data = new Uint8Array(e.target.result);
-        const workbook = XLSX.read(data, { type: "array" });
-        const primeiraAba = workbook.SheetNames[0];
-        const worksheet = workbook.Sheets[primeiraAba];
-        const clientesExcel = XLSX.utils.sheet_to_json(worksheet);
+        try {
+            const data = new Uint8Array(e.target.result);
+            const workbook = XLSX.read(data, { type: "array" });
+            let novosClientes = [];
 
-        let novosAdicionados = 0;
-        let duplicadosIgnorados = 0;
+            workbook.SheetNames.forEach(nomeAba => {
+                const worksheet = workbook.Sheets[nomeAba];
+                
+                // Extrai o nome do painel na célula A4
+                const celulaA4 = worksheet["A4"];
+                const valorA4 = celulaA4 ? String(celulaA4.v || "").trim() : "";
+                if (!valorA4) return; // Ignora aba se A4 estiver vazia
+                const nomePainel = "P " + valorA4;
 
-        clientesExcel.forEach(linha => {
-            const ppoe = String(linha.PPOE || linha.ppoe || "").trim();
-            const ip = String(linha.IP || linha.ip || "").trim();
-            const painel = linha.Painel || linha.painel || "Desconhecido";
-            const sinal = String(linha.Sinal || linha.sinal || "");
-            const status = linha.Status || linha.status || 1;
+                // Converte a planilha em matriz para manipulação por índices de linha/coluna
+                const rows = XLSX.utils.sheet_to_json(worksheet, { header: 1, defval: "" });
 
-            if (!ppoe && !ip) return; 
+                // Os clientes começam na linha 8 (índice 7 no array 0-based)
+                for (let i = 7; i < rows.length; i++) {
+                    const row = rows[i];
+                    if (!row || row.length === 0) continue;
 
-            const jaExiste = clientes.find(c => 
-                (c.ppoe && c.ppoe === ppoe) || 
-                (c.ip && c.ip === ip)
-            );
+                    // Coluna A = PPOE (índice 0)
+                    // Coluna D = IP (índice 3)
+                    // Coluna G = Sinal (índice 6)
+                    const ppoe = String(row[0] || "").trim();
+                    const ip = String(row[3] || "").trim();
+                    const sinalRaw = row[6];
 
-            if (!jaExiste) {
-                clientes.push({
-                    ppoe: ppoe,
-                    painel: painel,
-                    ip: ip,
-                    sinal: sinal,
-                    status: status
-                });
-                novosAdicionados++;
-            } else {
-                duplicadosIgnorados++;
-            }
-        });
+                    // Ignorar linhas vazias (se PPOE, IP e Sinal estiverem vazios)
+                    if (!ppoe && !ip && (sinalRaw === "" || sinalRaw === undefined || sinalRaw === null)) {
+                        continue;
+                    }
 
-        atualizarDashboard();
-        alert(`✅ Importação Concluída!\n\nNovos clientes adicionados: ${novosAdicionados}\nClientes duplicados ignorados: ${duplicadosIgnorados}`);
-        inputExcel.value = "";
+                    const sinal = String(sinalRaw).trim();
+                    let status = 1; // Ruim por padrão
+
+                    const sinalNum = parseFloat(sinal);
+                    if (!isNaN(sinalNum)) {
+                        if (sinalNum >= -65) {
+                            status = 3; // Bom
+                        } else if (sinalNum >= -75) {
+                            status = 2; // Médio
+                        } else {
+                            status = 1; // Ruim
+                        }
+                    }
+
+                    novosClientes.push({
+                        ppoe: ppoe,
+                        painel: nomePainel,
+                        ip: ip,
+                        sinal: sinal,
+                        status: status
+                    });
+                }
+            });
+
+            clientes = novosClientes;
+            atualizarDashboard();
+            alert(`✅ Importação Concluída!\n\nTotal de clientes carregados: ${clientes.length}`);
+            inputExcel.value = "";
+        } catch (erro) {
+            console.error(erro);
+            alert("❌ Erro ao processar a planilha. Verifique o formato do arquivo.");
+        }
     };
 
     reader.readAsArrayBuffer(arquivo);
