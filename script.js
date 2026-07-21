@@ -43,7 +43,7 @@ function entrar() {
     const senha = senhaInput.value;
 
     const encontrado = usuarios.find(u =>
-        u.usuario === usuario &&
+        u.usuario.toLowerCase() === usuario &&
         u.senha === senha
     );
 
