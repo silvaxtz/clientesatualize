@@ -3,12 +3,12 @@
 // =========================
 
 const usuarios = [
-    { usuario: "Adriano", senha: "180405a", tipo: "admin" },
-    { usuario: "Julio", senha: "suporteatlz", tipo: "tecnico" },
-    { usuario: "Kristian", senha: "suporteatlz", tipo: "tecnico" },
-    { usuario: "Jeciana", senha: "suporteatlz", tipo: "tecnico" },
-    { usuario: "Nubia", senha: "suporteatlz", tipo: "tecnico" },
-    { usuario: "Jerbson", senha: "suporteatlz", tipo: "tecnico" }
+    { usuario: "adriano", senha: "180405a", tipo: "admin" },
+    { usuario: "julio", senha: "suporteatlz", tipo: "tecnico" },
+    { usuario: "kristian", senha: "suporteatlz", tipo: "tecnico" },
+    { usuario: "jeciana", senha: "suporteatlz", tipo: "tecnico" },
+    { usuario: "nubia", senha: "suporteatlz", tipo: "tecnico" },
+    { usuario: "jerbson", senha: "suporteatlz", tipo: "tecnico" }
 ];
 
 // =========================
@@ -43,7 +43,7 @@ function entrar() {
     const senha = senhaInput.value;
 
     const encontrado = usuarios.find(u =>
-        u.usuario.toLowerCase() === usuario &&
+        u.usuario === usuario &&
         u.senha === senha
     );
 
@@ -130,10 +130,12 @@ pesquisa.addEventListener("input", () => {
         return;
     }
 
-    const cliente = clientes.find(c =>
-        (c.ppoe || "").toLowerCase().includes(texto) ||
-        String(c.ip || "").includes(texto)
-    );
+    const cliente = clientes.find(c => {
+        const ppoeCliente = (c.ppoe || "").toLowerCase();
+        const ipCliente = String(c.ip || "").toLowerCase();
+        
+        return ppoeCliente.includes(texto) || ipCliente.includes(texto);
+    });
 
     if (!cliente) {
         resultado.innerHTML = `
@@ -149,10 +151,10 @@ pesquisa.addEventListener("input", () => {
     let status = cliente.status;
     let classe = "";
 
-    if (status == 3) {
+    if (Number(status) === 3) {
         status = "🟢 Bom";
         classe = "status-bom";
-    } else if (status == 2) {
+    } else if (Number(status) === 2) {
         status = "🟡 Médio";
         classe = "status-medio";
     } else {
@@ -339,43 +341,36 @@ btnImportarExcel.addEventListener("click", () => {
             workbook.SheetNames.forEach(nomeAba => {
                 const worksheet = workbook.Sheets[nomeAba];
                 
-                // Extrai o nome do painel na célula A4
                 const celulaA4 = worksheet["A4"];
                 const valorA4 = celulaA4 ? String(celulaA4.v || "").trim() : "";
-                if (!valorA4) return; // Ignora aba se A4 estiver vazia
+                if (!valorA4) return; 
                 const nomePainel = "P " + valorA4;
 
-                // Converte a planilha em matriz para manipulação por índices de linha/coluna
                 const rows = XLSX.utils.sheet_to_json(worksheet, { header: 1, defval: "" });
 
-                // Os clientes começam na linha 8 (índice 7 no array 0-based)
                 for (let i = 7; i < rows.length; i++) {
                     const row = rows[i];
                     if (!row || row.length === 0) continue;
 
-                    // Coluna A = PPOE (índice 0)
-                    // Coluna D = IP (índice 3)
-                    // Coluna G = Sinal (índice 6)
                     const ppoe = String(row[0] || "").trim();
                     const ip = String(row[3] || "").trim();
                     const sinalRaw = row[6];
 
-                    // Ignorar linhas vazias (se PPOE, IP e Sinal estiverem vazios)
                     if (!ppoe && !ip && (sinalRaw === "" || sinalRaw === undefined || sinalRaw === null)) {
                         continue;
                     }
 
                     const sinal = String(sinalRaw).trim();
-                    let status = 1; // Ruim por padrão
+                    let status = 1; 
 
                     const sinalNum = parseFloat(sinal);
                     if (!isNaN(sinalNum)) {
                         if (sinalNum >= -65) {
-                            status = 3; // Bom
+                            status = 3; 
                         } else if (sinalNum >= -75) {
-                            status = 2; // Médio
+                            status = 2; 
                         } else {
-                            status = 1; // Ruim
+                            status = 1; 
                         }
                     }
 
