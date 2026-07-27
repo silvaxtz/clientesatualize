@@ -172,7 +172,7 @@ if (!isNaN(sinalValor)) {
 
         alertaHtml = `
             <div class="alerta-critico">
-                🔴 Sinal ruim (${cliente.sinal} dBm)<br>
+                ⚠️ Sinal ruim (${cliente.sinal} dBm)<br>
                 Recomenda-se verificar o cliente.
             </div>
         `;
@@ -181,8 +181,8 @@ if (!isNaN(sinalValor)) {
 
         alertaHtml = `
             <div class="alerta-critico" style="background:#fff3cd;color:#856404;border:1px solid #ffeeba;">
-                🟡 Atenção (${cliente.sinal} dBm)<br>
-                Cliente com sinal abaixo do ideal.
+                ⚠️ Atenção (${cliente.sinal} dBm)<br>
+                Cliente com sinal fora do ideal.
             </div>
         `;
 
