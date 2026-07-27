@@ -209,9 +209,19 @@ pesquisa.addEventListener("input", () => {
     <div class="campo">
         <div class="titulo">Status</div>
         <div class="${classe}">${status}</div>
-    </div>
-    <button onclick="copiarEsalvar('${formatarIP(cliente.ip)}', '${cliente.ppoe}')">Copiar IP</button>
-    <button onclick="copiarEsalvar('${cliente.ppoe}', '${cliente.ppoe}')">Copiar PPOE</button>
+    <div class="botoes-copiar">
+        <button onclick="copiarEsalvar('${formatarIP(cliente.ip)}', '${cliente.ppoe}')">
+            📋 Copiar IP
+        </button>
+
+        <button onclick="copiarEsalvar('${cliente.ppoe}', '${cliente.ppoe}')">
+            📋 Copiar PPOE
+        </button>
+
+        <button onclick="copiarEsalvar('${cliente.ssid}', '${cliente.ppoe}')">
+            📋 Copiar SSID
+        </button>
+     </div>
     `;
 });
 
