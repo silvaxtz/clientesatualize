@@ -433,3 +433,34 @@ btnImportarExcel.addEventListener("click", () => {
 
     reader.readAsArrayBuffer(arquivo);
 });
+if ("serviceWorker" in navigator) {
+
+    navigator.serviceWorker.register("./service-worker.js")
+        .then(reg => {
+
+            reg.addEventListener("updatefound", () => {
+
+                const novoWorker = reg.installing;
+
+                novoWorker.addEventListener("statechange", () => {
+
+                    if (
+                        novoWorker.state === "installed" &&
+                        navigator.serviceWorker.controller
+                    ) {
+
+                        if (
+                            confirm("🚀 Existe uma nova versão do aplicativo.\n\nDeseja atualizar agora?")
+                        ) {
+                            window.location.reload();
+                        }
+
+                    }
+
+                });
+
+            });
+
+        });
+
+}
