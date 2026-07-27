@@ -439,57 +439,70 @@ btnImportarExcel.addEventListener("click", () => {
 
     reader.readAsArrayBuffer(arquivo);
 });
-// =========================
-// ATUALIZAÇÃO AUTOMÁTICA DO APP
-// =========================
+// ===============================
+// SISTEMA DE ATUALIZAÇÃO
+// ===============================
 
-const updateBanner = document.getElementById("updateBanner");
-const btnAtualizarApp = document.getElementById("btnAtualizarApp");
+const APP_VERSION = "1.0.0";
 
-if ("serviceWorker" in navigator) {
+const banner = document.getElementById("updateBanner");
+const btnAtualizar = document.getElementById("btnAtualizarApp");
+const versaoTexto = document.getElementById("versaoApp");
 
-    navigator.serviceWorker.register("./service-worker.js")
-    .then(reg => {
+if (versaoTexto) {
+    versaoTexto.textContent = "Versão " + APP_VERSION;
+}
 
-        // Verifica atualizações ao abrir
-        reg.update();
+async function verificarNovaVersao() {
 
-        // Verifica novamente a cada 60 segundos
-        setInterval(() => {
-            reg.update();
-        }, 60000);
+    try {
 
-        reg.addEventListener("updatefound", () => {
-
-            const novoWorker = reg.installing;
-
-            novoWorker.addEventListener("statechange", () => {
-
-                if (
-                    novoWorker.state === "installed" &&
-                    navigator.serviceWorker.controller
-                ) {
-                    updateBanner.style.display = "flex";
-                }
-
-            });
-
+        const resposta = await fetch("version.json?nocache=" + Date.now(), {
+            cache: "no-store"
         });
 
-    });
+        const dados = await resposta.json();
+
+        if (dados.version !== APP_VERSION) {
+
+            banner.style.display = "flex";
+
+        }
+
+    } catch (erro) {
+
+        console.log("Erro verificando versão:", erro);
+
+    }
 
 }
 
-btnAtualizarApp.addEventListener("click", async () => {
+setInterval(verificarNovaVersao,10000);
 
-    updateBanner.style.display = "none";
+verificarNovaVersao();
 
-    const keys = await caches.keys();
+btnAtualizar.addEventListener("click", async () => {
 
-    await Promise.all(
-        keys.map(key => caches.delete(key))
-    );
+    try{
 
-    location.reload();
+        const registro = await navigator.serviceWorker.getRegistration();
+
+        if(registro){
+
+            await registro.update();
+
+        }
+
+    }catch(e){}
+
+    if("caches" in window){
+
+        const nomes = await caches.keys();
+
+        await Promise.all(nomes.map(nome=>caches.delete(nome)));
+
+    }
+
+    location.reload(true);
 
 });
