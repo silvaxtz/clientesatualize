@@ -198,6 +198,10 @@ pesquisa.addEventListener("input", () => {
         <div class="valor">${formatarIP(cliente.ip)}</div>
     </div>
     <div class="campo">
+         <div class="titulo">SSID</div>
+        <div class="valor">${cliente.ssid || "Não informado"}</div>
+    </div>
+    <div class="campo">
         <div class="titulo">Última Medição</div>
         <div class="valor">${cliente.sinal}</div>
     </div>
