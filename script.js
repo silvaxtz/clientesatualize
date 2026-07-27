@@ -443,35 +443,40 @@ btnImportarExcel.addEventListener("click", () => {
 // SISTEMA DE ATUALIZAÇÃO
 // ===============================
 
-const APP_VERSION = "1.0.0";
-
 const banner = document.getElementById("updateBanner");
 const btnAtualizar = document.getElementById("btnAtualizarApp");
 const versaoTexto = document.getElementById("versaoApp");
 
-if (versaoTexto) {
-    versaoTexto.textContent = "Versão " + APP_VERSION;
-}
+let versaoAtual = "";
 
 async function verificarNovaVersao() {
 
     try {
 
-        const resposta = await fetch("version.json?nocache=" + Date.now(), {
+        const resposta = await fetch("version.json?t=" + Date.now(), {
             cache: "no-store"
         });
 
         const dados = await resposta.json();
 
-        if (dados.version !== APP_VERSION) {
+        if (!versaoAtual) {
+
+            versaoAtual = dados.version;
+
+            versaoTexto.textContent = "Versão " + dados.version;
+
+            return;
+        }
+
+        if (dados.version !== versaoAtual) {
 
             banner.style.display = "flex";
 
         }
 
-    } catch (erro) {
+    } catch (e) {
 
-        console.log("Erro verificando versão:", erro);
+        console.log(e);
 
     }
 
@@ -481,28 +486,16 @@ setInterval(verificarNovaVersao,10000);
 
 verificarNovaVersao();
 
-btnAtualizar.addEventListener("click", async () => {
+btnAtualizar.onclick = async () => {
 
-    try{
+    const reg = await navigator.serviceWorker.getRegistration();
 
-        const registro = await navigator.serviceWorker.getRegistration();
+    if(reg){
 
-        if(registro){
-
-            await registro.update();
-
-        }
-
-    }catch(e){}
-
-    if("caches" in window){
-
-        const nomes = await caches.keys();
-
-        await Promise.all(nomes.map(nome=>caches.delete(nome)));
+        await reg.update();
 
     }
 
-    location.reload(true);
+    window.location.reload();
 
-});
+};
