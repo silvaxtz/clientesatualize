@@ -359,6 +359,7 @@ btnImportarExcel.addEventListener("click", () => {
                     const ppoe = String(row[0] || "").trim();
                     const ip = String(row[3] || "").trim();
                     const sinalRaw = row[6];
+                    const ssid = String(row[9] || "").trim();
 
                     if (!ppoe && !ip && (sinalRaw === "" || sinalRaw === undefined || sinalRaw === null)) {
                         continue;
@@ -382,6 +383,7 @@ btnImportarExcel.addEventListener("click", () => {
                         ppoe: ppoe,
                         painel: nomePainel,
                         ip: ip,
+                        ssid: ssid,
                         sinal: sinal,
                         status: status
                     });
