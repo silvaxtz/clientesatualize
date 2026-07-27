@@ -338,7 +338,7 @@ const btnImportarExcel = document.getElementById("btnImportarExcel");
 
 btnImportarExcel.addEventListener("click", () => {
     const arquivo = inputExcel.files[0];
-    
+
     if (!arquivo) {
         alert("Por favor, selecione uma planilha Excel (.xlsx) primeiro.");
         return;
@@ -350,42 +350,59 @@ btnImportarExcel.addEventListener("click", () => {
         try {
             const data = new Uint8Array(e.target.result);
             const workbook = XLSX.read(data, { type: "array" });
+
             let novosClientes = [];
 
             workbook.SheetNames.forEach(nomeAba => {
+
                 const worksheet = workbook.Sheets[nomeAba];
-                
-                const celulaA4 = worksheet["A4"];
-                const valorA4 = celulaA4 ? String(celulaA4.v || "").trim() : "";
-                if (!valorA4) return; 
+
+                // Nome do painel
+                const valorA4 = String(worksheet["A4"]?.v || "").trim();
+                if (!valorA4) return;
+
                 const nomePainel = "P " + valorA4;
 
-                const rows = XLSX.utils.sheet_to_json(worksheet, { header: 1, defval: "" });
+                // SSID do painel (J4)
+                const ssid = String(worksheet["J4"]?.v || "").trim();
+
+                // Linhas da planilha
+                const rows = XLSX.utils.sheet_to_json(worksheet, {
+                    header: 1,
+                    defval: ""
+                });
 
                 for (let i = 7; i < rows.length; i++) {
+
                     const row = rows[i];
+
                     if (!row || row.length === 0) continue;
 
                     const ppoe = String(row[0] || "").trim();
                     const ip = String(row[3] || "").trim();
                     const sinalRaw = row[6];
-                    const ssid = sheet["J4"]?.v || "";
 
-                    if (!ppoe && !ip && (sinalRaw === "" || sinalRaw === undefined || sinalRaw === null)) {
+                    if (
+                        !ppoe &&
+                        !ip &&
+                        (sinalRaw === "" || sinalRaw === null || sinalRaw === undefined)
+                    ) {
                         continue;
                     }
 
                     const sinal = String(sinalRaw).trim();
-                    let status = 1; 
+
+                    let status = 1;
 
                     const sinalNum = parseFloat(sinal);
+
                     if (!isNaN(sinalNum)) {
                         if (sinalNum >= -65) {
-                            status = 3; 
+                            status = 3;
                         } else if (sinalNum >= -75) {
-                            status = 2; 
+                            status = 2;
                         } else {
-                            status = 1; 
+                            status = 1;
                         }
                     }
 
@@ -401,12 +418,16 @@ btnImportarExcel.addEventListener("click", () => {
             });
 
             clientes = novosClientes;
+
             atualizarDashboard();
-            alert(`✅ Importação Concluída!\n\nTotal de clientes carregados: ${clientes.length}`);
+
+            alert(`✅ Importação concluída!\n\n${clientes.length} clientes carregados.`);
+
             inputExcel.value = "";
+
         } catch (erro) {
             console.error(erro);
-            alert("❌ Erro ao processar a planilha. Verifique o formato do arquivo.");
+            alert("❌ " + erro.message);
         }
     };
 
