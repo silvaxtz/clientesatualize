@@ -433,34 +433,57 @@ btnImportarExcel.addEventListener("click", () => {
 
     reader.readAsArrayBuffer(arquivo);
 });
+// =========================
+// ATUALIZAÇÃO AUTOMÁTICA DO APP
+// =========================
+
+const updateBanner = document.getElementById("updateBanner");
+const btnAtualizarApp = document.getElementById("btnAtualizarApp");
+
 if ("serviceWorker" in navigator) {
 
     navigator.serviceWorker.register("./service-worker.js")
-        .then(reg => {
+    .then(reg => {
 
-            reg.addEventListener("updatefound", () => {
+        // Verifica atualizações ao abrir
+        reg.update();
 
-                const novoWorker = reg.installing;
+        // Verifica novamente a cada 60 segundos
+        setInterval(() => {
+            reg.update();
+        }, 60000);
 
-                novoWorker.addEventListener("statechange", () => {
+        reg.addEventListener("updatefound", () => {
 
-                    if (
-                        novoWorker.state === "installed" &&
-                        navigator.serviceWorker.controller
-                    ) {
+            const novoWorker = reg.installing;
 
-                        if (
-                            confirm("🚀 Existe uma nova versão do aplicativo.\n\nDeseja atualizar agora?")
-                        ) {
-                            window.location.reload();
-                        }
+            novoWorker.addEventListener("statechange", () => {
 
-                    }
-
-                });
+                if (
+                    novoWorker.state === "installed" &&
+                    navigator.serviceWorker.controller
+                ) {
+                    updateBanner.style.display = "flex";
+                }
 
             });
 
         });
 
+    });
+
 }
+
+btnAtualizarApp.addEventListener("click", async () => {
+
+    updateBanner.style.display = "none";
+
+    const keys = await caches.keys();
+
+    await Promise.all(
+        keys.map(key => caches.delete(key))
+    );
+
+    location.reload();
+
+});
