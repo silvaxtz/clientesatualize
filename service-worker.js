@@ -1,5 +1,13 @@
 const CACHE = "atualize-v5";
+self.addEventListener("message", event => {
 
+    if (event.data === "SKIP_WAITING") {
+
+        self.skipWaiting();
+
+    }
+
+});
 const arquivos = [
     "./",
     "./index.html",
