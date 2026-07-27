@@ -453,13 +453,6 @@ async function verificarNovaVersao() {
 
     try {
 
-        // Atualiza o Service Worker
-        const registro = await navigator.serviceWorker.getRegistration();
-
-        if (registro) {
-            await registro.update();
-        }
-
         // Busca a versão sem usar cache
         const resposta = await fetch("version.json?v=" + Date.now(), {
             cache: "no-store"
