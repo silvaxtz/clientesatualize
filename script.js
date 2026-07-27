@@ -369,7 +369,7 @@ btnImportarExcel.addEventListener("click", () => {
                     const ppoe = String(row[0] || "").trim();
                     const ip = String(row[3] || "").trim();
                     const sinalRaw = row[6];
-                    const ssid = String(row[9] || "").trim();
+                    const ssid = sheet["J4"]?.v || "";
 
                     if (!ppoe && !ip && (sinalRaw === "" || sinalRaw === undefined || sinalRaw === null)) {
                         continue;
