@@ -163,26 +163,32 @@ pesquisa.addEventListener("input", () => {
     }
 
     // Lógica do sinal com alerta integrado
-    let sinalValor = parseInt(cliente.sinal); 
-    let alertaHtml = "";
-    
-    if (!isNaN(sinalValor)) {
-        if (sinalValor < -70) {
-            alertaHtml = `
-                <div class="alerta-critico">
-                    ⚠️ Sinal Crítico (${cliente.sinal} dBm)<br>
-                    Última medição aponta necessidade de alinhamento!
-                </div>
-            `;
-        } else if (sinalValor > -50) {
-            alertaHtml = `
-                <div class="alerta-critico" style="background-color: #fff3cd; color: #856404; border-color: #ffeeba;">
-                    ⚠️ Sinal muito alto (${cliente.sinal} dBm)<br>
-                    Verifique saturação ou atenuação!
-                </div>
-            `;
-        }
+let sinalValor = parseInt(cliente.sinal);
+let alertaHtml = "";
+
+if (!isNaN(sinalValor)) {
+
+    if (sinalValor <= -81) {
+
+        alertaHtml = `
+            <div class="alerta-critico">
+                🔴 Sinal ruim (${cliente.sinal} dBm)<br>
+                Recomenda-se verificar o cliente.
+            </div>
+        `;
+
+    } else if (sinalValor <= -70) {
+
+        alertaHtml = `
+            <div class="alerta-critico" style="background:#fff3cd;color:#856404;border:1px solid #ffeeba;">
+                🟡 Atenção (${cliente.sinal} dBm)<br>
+                Cliente com sinal abaixo do ideal.
+            </div>
+        `;
+
     }
+
+}
 
     resultado.innerHTML = `
     <div class="campo">
