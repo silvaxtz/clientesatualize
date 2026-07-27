@@ -447,23 +447,33 @@ const banner = document.getElementById("updateBanner");
 const btnAtualizar = document.getElementById("btnAtualizarApp");
 const versaoTexto = document.getElementById("versaoApp");
 
-let versaoAtual = "";
+let versaoAtual = null;
 
 async function verificarNovaVersao() {
 
     try {
 
-        const resposta = await fetch("version.json?t=" + Date.now(), {
+        // Atualiza o Service Worker
+        const registro = await navigator.serviceWorker.getRegistration();
+
+        if (registro) {
+            await registro.update();
+        }
+
+        // Busca a versão sem usar cache
+        const resposta = await fetch("version.json?v=" + Date.now(), {
             cache: "no-store"
         });
 
         const dados = await resposta.json();
 
-        if (!versaoAtual) {
+        if (versaoAtual === null) {
 
             versaoAtual = dados.version;
 
-            versaoTexto.textContent = "Versão " + dados.version;
+            if (versaoTexto) {
+                versaoTexto.textContent = "Versão " + dados.version;
+            }
 
             return;
         }
@@ -474,28 +484,40 @@ async function verificarNovaVersao() {
 
         }
 
-    } catch (e) {
+    } catch (erro) {
 
-        console.log(e);
+        console.log("Erro ao verificar atualização:", erro);
 
     }
 
 }
 
+// verifica a cada 10 segundos
 setInterval(verificarNovaVersao,10000);
 
+// primeira verificação
 verificarNovaVersao();
 
 btnAtualizar.onclick = async () => {
 
-    const reg = await navigator.serviceWorker.getRegistration();
+    const registro = await navigator.serviceWorker.getRegistration();
 
-    if(reg){
+    if (registro) {
 
-        await reg.update();
+        await registro.update();
+
+        if (registro.waiting) {
+
+            registro.waiting.postMessage("SKIP_WAITING");
+
+        }
 
     }
 
+};
+
+navigator.serviceWorker.addEventListener("controllerchange", () => {
+
     window.location.reload();
 
-};
+});
