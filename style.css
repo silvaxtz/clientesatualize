@@ -446,3 +446,72 @@ body.dark-theme .btn-historico {
     font-weight: bold;
     text-align: center;
 }
+/* =========================
+   BANNER DE ATUALIZAÇÃO
+========================= */
+
+.update-banner{
+    position:fixed;
+    left:15px;
+    right:15px;
+    bottom:20px;
+
+    display:none;
+    align-items:center;
+    justify-content:space-between;
+
+    padding:16px 18px;
+
+    background:#00b050;
+    color:#fff;
+
+    border-radius:14px;
+
+    box-shadow:0 10px 30px rgba(0,0,0,.25);
+
+    z-index:99999;
+
+    animation:slideUp .35s ease;
+}
+
+.update-banner span{
+    font-size:15px;
+    font-weight:bold;
+}
+
+.update-banner button{
+    width:auto;
+    margin:0;
+
+    padding:10px 18px;
+
+    background:#fff;
+    color:#00b050;
+
+    border:none;
+    border-radius:8px;
+
+    font-weight:bold;
+    cursor:pointer;
+
+    transition:.2s;
+}
+
+.update-banner button:hover{
+    background:#f2f2f2;
+    transform:scale(1.05);
+}
+
+@keyframes slideUp{
+
+    from{
+        opacity:0;
+        transform:translateY(80px);
+    }
+
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+
+}
