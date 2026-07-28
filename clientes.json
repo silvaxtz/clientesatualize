@@ -1664,6 +1664,14 @@
     "status": 2
   },
   {
+    "ppoe": "valquiriabarros",
+    "painel": "P PEDRA DGUA",
+    "ip": "192.168.143.32",
+    "ssid": "ATUALIZE-CLIENTES-PDA-PAINEL",
+    "sinal": "-66/-60",
+    "status": 2
+  },
+  {
     "ppoe": "ernestoheraclio",
     "painel": "P PATA",
     "ip": "192.168.141.68",
