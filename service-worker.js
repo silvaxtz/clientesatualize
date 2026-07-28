@@ -1,4 +1,4 @@
-const CACHE = "atualize-v8";
+const CACHE = "atualize-v9";
 self.addEventListener("message", event => {
 
     if (event.data === "SKIP_WAITING") {
