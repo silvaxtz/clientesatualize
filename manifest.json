@@ -1,20 +1,35 @@
 {
-  "name": "Pesquisa de Clientes Atualize",
+  "name": "Atualize Telecom - Pesquisa de Clientes",
   "short_name": "Atualize",
-  "description": "Pesquisa rápida de clientes da Atualize Telecom.",
+  "description": "Sistema interno de pesquisa de clientes da Atualize Telecom.",
   "lang": "pt-BR",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
-  "background_color": "#f4f7fb",
+  "display_override": [
+    "standalone",
+    "window-controls-overlay"
+  ],
+  "background_color": "#0f172a",
   "theme_color": "#00b050",
   "orientation": "portrait",
+  "categories": [
+    "business",
+    "productivity",
+    "utilities"
+  ],
   "icons": [
     {
       "src": "logo-512.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any maskable"
+    },
+    {
+      "src": "logo-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
     }
   ]
 }
