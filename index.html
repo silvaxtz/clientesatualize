@@ -1,324 +1,167 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-
 <head>
-
     <meta charset="UTF-8">
-
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>Atualize Telecom - Pesquisa de Clientes</title>
 
+    <link rel="manifest" href="manifest.json">
+    <link rel="stylesheet" href="style.css">
     <meta name="theme-color" content="#00b050">
 
-    <meta name="description" content="Sistema interno da Atualize Telecom">
-
-    <link rel="manifest" href="manifest.json">
-
-    <link rel="stylesheet" href="style.css">
-
-    <!-- Fonte -->
-
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-
-    <!-- XLSX -->
-
+    <!-- Biblioteca para ler Excel -->
     <script src="xlsx.full.min.js"></script>
 
+    <style>
+        .historico-container {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+            justify-content: center;
+        }
+
+        .btn-historico {
+            background-color: #e0e0e0;
+            color: #333;
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 12px;
+            cursor: pointer;
+            border: none;
+            width: auto;
+        }
+    </style>
 </head>
 
 <body>
 
-<!-- ================= LOGIN ================= -->
-
+<!-- LOGIN -->
 <div id="loginTela" class="container">
+    <img src="logo.png" class="logo" alt="Atualize">
 
-    <img src="logo.png" class="logo" alt="Atualize Telecom">
+    <input type="text" id="usuario" placeholder="Usuário" autocomplete="username">
+    <input type="password" id="senha" placeholder="Senha" autocomplete="current-password">
 
-    <h1>Atualize Telecom</h1>
-
-    <p class="subtitulo">
-
-        Sistema de Pesquisa de Clientes
-
-    </p>
-
-    <input
-        id="usuario"
-        type="text"
-        placeholder="Usuário"
-        autocomplete="username">
-
-    <input
-        id="senha"
-        type="password"
-        placeholder="Senha"
-        autocomplete="current-password">
-
-    <button id="btnLogin">
-
-        Entrar
-
-    </button>
+    <button id="btnLogin">Entrar</button>
 
     <div id="erroLogin"></div>
-
 </div>
 
-<!-- ================= SISTEMA ================= -->
-
+<!-- SISTEMA -->
 <div id="sistema" class="container" style="display:none;">
 
     <div class="topo">
-
         <span id="usuarioLogado"></span>
 
-        <div>
-
-            <button
-                id="btnAdmin"
-                style="display:none;">
-
-                Painel
-
-            </button>
-
-            <button id="btnSair">
-
-                Sair
-
-            </button>
-
+        <div style="display:flex;gap:10px;align-items:center;">
+            <button id="btnAdmin" style="display:none;">Admin</button>
+            <button id="btnSair">Sair</button>
         </div>
 
     </div>
 
-    <img
-        src="logo.png"
-        class="logo"
-        alt="Atualize Telecom">
+    <img src="logo.png" class="logo" alt="Atualize">
 
     <h1>Pesquisa de Clientes</h1>
 
-    <div class="search-box">
+    <input
+        type="text"
+        id="pesquisa"
+        placeholder="Digite o PPOE ou IP..."
+        autocomplete="off"
+    >
 
-        <i data-lucide="search"></i>
-
-        <input
-            type="text"
-            id="pesquisa"
-            placeholder="Digite PPOE ou IP..."
-            autocomplete="off">
-
-    </div>
-
-    <div
-        id="historicoPesquisas"
-        class="historico-container">
-
-    </div>
+    <div id="historicoPesquisas" class="historico-container"></div>
 
     <div id="resultado"></div>
 
 </div>
 
-<!-- ================= PAINEL ADMIN ================= -->
-
-    <!-- ================= PAINEL ADMIN ================= -->
-
+<!-- PAINEL ADMIN -->
 <div id="painelAdmin" class="container" style="display:none;">
 
     <div class="topo">
-
-        <div>
-
-            <h2>Painel Administrativo</h2>
-
-            <span class="subtitulo-admin">
-
-                Atualize Telecom
-
-            </span>
-
-        </div>
-
-        <button id="fecharAdmin">
-
-            Fechar
-
-        </button>
-
+        <h2>Painel Administrativo</h2>
+        <button id="fecharAdmin">Fechar</button>
     </div>
 
     <div class="cards-admin">
 
         <div class="card-admin">
-
-            <span>
-
-                <i data-lucide="users"></i>
-
-                Clientes
-
-            </span>
-
+            <span>👥 Clientes</span>
             <h2 id="totalClientes">0</h2>
-
         </div>
 
         <div class="card-admin">
-
-            <span>
-
-                <i data-lucide="router"></i>
-
-                Painéis
-
-            </span>
-
+            <span>📡 Painéis</span>
             <h2 id="totalPaineis">0</h2>
-
         </div>
 
         <div class="card-admin">
-
-            <span>
-
-                <i data-lucide="badge-check"></i>
-
-                Bom
-
-            </span>
-
+            <span>🟢 Bom</span>
             <h2 id="totalBom">0</h2>
-
         </div>
 
         <div class="card-admin">
-
-            <span>
-
-                <i data-lucide="triangle-alert"></i>
-
-                Médio
-
-            </span>
-
+            <span>🟡 Médio</span>
             <h2 id="totalMedio">0</h2>
-
         </div>
 
         <div class="card-admin">
-
-            <span>
-
-                <i data-lucide="circle-x"></i>
-
-                Ruim
-
-            </span>
-
+            <span>🔴 Ruim</span>
             <h2 id="totalRuim">0</h2>
-
         </div>
 
     </div>
 
-    <hr>
+    <hr style="margin:30px 0;">
 
-    <h2>
-
-        <i data-lucide="chart-column"></i>
-
-        Ranking dos Painéis
-
-    </h2>
+    <h2>📈 Top Painéis</h2>
 
     <div id="rankingPaineis"></div>
 
-    <hr>
+    <hr style="margin:30px 0;">
 
-    <h2>
+    <h2>🔄 Importar Planilha</h2>
 
-        <i data-lucide="file-up"></i>
+    <div style="margin-bottom:20px;">
 
-        Importar Planilha
+        <input
+            type="file"
+            id="inputExcel"
+            accept=".xlsx,.xls"
+            style="margin-bottom:10px;"
+        >
 
-    </h2>
+        <br>
 
-    <input
-        type="file"
-        id="inputExcel"
-        accept=".xlsx,.xls">
+        <button id="btnImportarExcel">
+            Carregar e Atualizar Dashboard
+        </button>
 
-    <button id="btnImportarExcel">
+    </div>
 
-        <i data-lucide="upload"></i>
+    <hr style="margin:30px 0;">
 
-        Carregar e Atualizar Dashboard
-
-    </button>
-
-    <hr>
-
-    <button id="baixarJson">
-
-        <i data-lucide="download"></i>
-
-        Baixar clientes.json
-
-    </button>
+    <button id="baixarJson">📥 Baixar clientes.json</button>
 
     <button id="copiarEstatisticas">
-
-        <i data-lucide="clipboard-copy"></i>
-
-        Copiar Estatísticas
-
+        📋 Copiar Estatísticas
     </button>
 
 </div>
 
-<!-- ================= ATUALIZAÇÃO ================= -->
-
+<!-- BANNER DE ATUALIZAÇÃO -->
 <div id="updateBanner" class="update-banner">
-
-    <span>
-
-        <i data-lucide="rocket"></i>
-
-        Nova versão disponível
-
-    </span>
-
-    <button id="btnAtualizarApp">
-
-        Atualizar
-
-    </button>
-
+    <span>🚀 Nova versão disponível</span>
+    <button id="btnAtualizarApp">Atualizar</button>
 </div>
 
-<div id="versaoApp">
-
-    Versão 1.0.0
-
-</div>
+<!-- VERSÃO DO APLICATIVO -->
+<div id="versaoApp">Versão 1.0.0</div>
 
 <script src="script.js"></script>
 
-<script src="https://unpkg.com/lucide@latest"></script>
-
-<script>
-
-    lucide.createIcons();
-
-</script>
-
 </body>
-
 </html>
