@@ -1,4 +1,4 @@
-const CACHE = "atualize-v12";
+const CACHE = "atualize-v13";
 
 const ARQUIVOS = [
     "./",
