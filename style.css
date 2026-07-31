@@ -1,502 +1,1696 @@
+/*=========================================================
+    ATUALIZE CLIENTES V2
+    Desenvolvido para manter compatibilidade total
+=========================================================*/
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+:root{
+
+    /* Cores */
+
+    --primary:#00B050;
+    --primaryHover:#009642;
+
+    --blue:#2563EB;
+
+    --success:#16A34A;
+    --warning:#F59E0B;
+    --danger:#DC2626;
+
+    --background:#F3F6FB;
+    --surface:#FFFFFF;
+
+    --text:#0F172A;
+    --textLight:#64748B;
+
+    --border:#E2E8F0;
+
+    /* Bordas */
+
+    --radiusXL:28px;
+    --radius:20px;
+    --radiusSM:14px;
+
+    /* Sombras */
+
+    --shadow:
+        0 12px 35px rgba(15,23,42,.08);
+
+    --shadowHover:
+        0 18px 40px rgba(15,23,42,.12);
+
+    --transition:.25s ease;
+
+}
+
+/*============================*/
+
 *{
+
     margin:0;
     padding:0;
+
     box-sizing:border-box;
-    font-family:Arial, Helvetica, sans-serif;
+
+}
+
+html{
+
+    scroll-behavior:smooth;
+
+    -webkit-tap-highlight-color:transparent;
+
 }
 
 body{
-    background:#f4f7fb;
-    display:flex;
-    justify-content:center;
-    align-items:center;
+
     min-height:100vh;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
     padding:20px;
+
+    font-family:'Inter',sans-serif;
+
+    color:var(--text);
+
+    background:
+
+        radial-gradient(circle at top,#ffffff,#eef3fb);
+
 }
+
+/*============================*/
 
 .container{
+
     width:100%;
-    max-width:500px;
-    background:#ffffff;
-    border-radius:20px;
-    padding:30px;
-    box-shadow:0 12px 35px rgba(0,0,0,.12);
-    border:1px solid #e5e7eb;
+
+    max-width:540px;
+
+    background:rgba(255,255,255,.95);
+
+    backdrop-filter:blur(18px);
+
+    border-radius:var(--radiusXL);
+
+    border:1px solid rgba(255,255,255,.6);
+
+    padding:28px;
+
+    box-shadow:var(--shadow);
+
+    transition:var(--transition);
+
 }
+
+.container:hover{
+
+    box-shadow:var(--shadowHover);
+
+}
+
+/*============================*/
 
 .logo{
-    width:240px;
+
+    width:210px;
+
     display:block;
-    margin:0 auto 20px;
+
+    margin:auto;
+
+    margin-bottom:28px;
+
+    user-select:none;
+
 }
+
+/*============================*/
 
 h1{
+
     text-align:center;
-    color:#0f172a;
-    margin-bottom:20px;
-    font-size:28px;
+
+    font-size:30px;
+
+    font-weight:800;
+
+    letter-spacing:-1px;
+
+    color:var(--text);
+
+    margin-bottom:25px;
+
 }
 
-#pesquisa{
+h2{
+
+    color:var(--text);
+
+    font-weight:700;
+
+}
+
+h3{
+
+    color:var(--text);
+
+    font-weight:600;
+
+}
+
+p{
+
+    color:var(--textLight);
+
+}
+
+/*============================*/
+
+input{
+
     width:100%;
-    padding:16px;
-    border:2px solid #d1d5db;
-    border-radius:12px;
-    font-size:18px;
+
+    height:56px;
+
+    border:none;
+
     outline:none;
-    margin-bottom:20px;
-    transition:.2s;
-    background:#fff;
-    color:#111827;
+
+    background:#F8FAFC;
+
+    border:2px solid transparent;
+
+    border-radius:18px;
+
+    padding:0 18px;
+
+    color:var(--text);
+
+    font-size:16px;
+
+    transition:var(--transition);
+
 }
 
-#pesquisa:focus{
-    border-color:#00b050;
-    box-shadow:0 0 0 4px rgba(0,176,80,.15);
+input::placeholder{
+
+    color:#94A3B8;
+
 }
 
-#resultado{
-    background:#f8fafc;
-    border:1px solid #e5e7eb;
-    border-radius:14px;
-    padding:20px;
-    color:#111827;
-    min-height:120px;
+input:focus{
+
+    background:white;
+
+    border-color:var(--primary);
+
+    box-shadow:
+
+        0 0 0 5px rgba(0,176,80,.10);
+
 }
 
-.campo{
-    margin-bottom:14px;
-    padding-bottom:10px;
-    border-bottom:1px solid #e5e7eb;
+/* Campos específicos */
+
+#usuario,
+#senha,
+#pesquisa{
+
+    margin-bottom:18px;
+
 }
 
-.campo:last-child{
-    border-bottom:none;
-}
-
-.titulo{
-    color:#00b050;
-    font-weight:bold;
-    margin-bottom:4px;
-}
-
-.valor{
-    font-size:18px;
-    color:#111827;
-}
-
-.status-bom{
-    color:#16a34a;
-    font-weight:bold;
-}
-
-.status-medio{
-    color:#ca8a04;
-    font-weight:bold;
-}
-
-.status-ruim{
-    color:#dc2626;
-    font-weight:bold;
-}
+/*============================*/
 
 button{
-    margin-top:12px;
+
     width:100%;
-    padding:14px;
+
+    height:54px;
+
     border:none;
-    border-radius:12px;
-    background:#00b050;
-    color:#fff;
+
+    border-radius:18px;
+
+    background:
+
+        linear-gradient(
+        135deg,
+        var(--primary),
+        #00C45C
+        );
+
+    color:white;
+
+    font-size:15px;
+
+    font-weight:700;
+
     cursor:pointer;
-    font-size:16px;
-    font-weight:bold;
-    transition:.2s;
+
+    transition:var(--transition);
+
+    margin-top:12px;
+
+    box-shadow:
+
+        0 10px 25px rgba(0,176,80,.25);
+
 }
 
 button:hover{
-    background:#009640;
-    transform:translateY(-1px);
+
+    transform:translateY(-2px);
+
+    box-shadow:
+
+        0 18px 35px rgba(0,176,80,.30);
+
 }
 
 button:active{
-    transform:translateY(0);
-}
-/* ===== LOGIN ===== */
 
-#usuario,
-#senha{
-    width:100%;
-    padding:16px;
-    border:2px solid #d1d5db;
-    border-radius:12px;
-    font-size:18px;
-    outline:none;
-    margin-bottom:15px;
-    transition:.2s;
-    background:#fff;
-    color:#111827;
+    transform:scale(.98);
+
 }
 
-#usuario:focus,
-#senha:focus{
-    border-color:#00b050;
-    box-shadow:0 0 0 4px rgba(0,176,80,.15);
-}
-
-#erroLogin{
-    color:#dc2626;
-    text-align:center;
-    margin-top:10px;
-    font-weight:bold;
-    min-height:20px;
-}
-
-/* ===== TOPO ===== */
+/*============================*/
 
 .topo{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    margin-bottom:20px;
-    gap:10px;
-    flex-wrap:wrap;
-}
 
-#usuarioLogado{
-    font-weight:bold;
-    color:#0f172a;
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    gap:12px;
+
+    margin-bottom:25px;
+
+    flex-wrap:wrap;
+
 }
 
 .topo div{
+
     display:flex;
+
     gap:10px;
+
+}
+
+#usuarioLogado{
+
+    font-weight:700;
+
+    color:var(--text);
+
+}
+/*=========================================================
+    RESULTADO DA PESQUISA
+=========================================================*/
+
+#resultado{
+
+    margin-top:20px;
+
+    background:#FFFFFF;
+
+    border:1px solid var(--border);
+
+    border-radius:22px;
+
+    padding:22px;
+
+    min-height:120px;
+
+    transition:.3s;
+
+    animation:fadeUp .3s ease;
+
+}
+
+.campo{
+
+    padding:15px 0;
+
+    border-bottom:1px solid #EDF2F7;
+
+}
+
+.campo:last-child{
+
+    border-bottom:none;
+
+}
+
+.titulo{
+
+    font-size:13px;
+
+    font-weight:700;
+
+    text-transform:uppercase;
+
+    letter-spacing:.8px;
+
+    color:var(--primary);
+
+    margin-bottom:8px;
+
+}
+
+.valor{
+
+    font-size:18px;
+
+    font-weight:600;
+
+    color:var(--text);
+
+    word-break:break-word;
+
+}
+
+/*=============================
+STATUS
+=============================*/
+
+.status-bom{
+
+    display:inline-flex;
+
+    align-items:center;
+
+    gap:6px;
+
+    padding:8px 16px;
+
+    border-radius:30px;
+
+    background:#DCFCE7;
+
+    color:#166534;
+
+    font-weight:700;
+
+}
+
+.status-medio{
+
+    display:inline-flex;
+
+    align-items:center;
+
+    gap:6px;
+
+    padding:8px 16px;
+
+    border-radius:30px;
+
+    background:#FEF3C7;
+
+    color:#92400E;
+
+    font-weight:700;
+
+}
+
+.status-ruim{
+
+    display:inline-flex;
+
+    align-items:center;
+
+    gap:6px;
+
+    padding:8px 16px;
+
+    border-radius:30px;
+
+    background:#FEE2E2;
+
+    color:#991B1B;
+
+    font-weight:700;
+
+}
+
+/*=============================
+BOTÕES DE COPIAR
+=============================*/
+
+.botoes-copiar{
+
+    display:grid;
+
+    grid-template-columns:1fr;
+
+    gap:12px;
+
+    margin-top:20px;
+
+}
+
+.botoes-copiar button{
+
+    margin:0;
+
+}
+
+/*=========================================================
+CLIENTE NÃO ENCONTRADO
+=========================================================*/
+
+.nao-encontrado{
+
+    text-align:center;
+
+    padding:35px 15px;
+
+}
+
+.nao-encontrado .icone{
+
+    font-size:55px;
+
+    margin-bottom:15px;
+
+}
+
+.nao-encontrado h2{
+
+    color:var(--danger);
+
+    margin-bottom:10px;
+
+}
+
+.nao-encontrado p{
+
+    color:var(--textLight);
+
+    line-height:1.6;
+
+}
+
+.nao-encontrado .dica{
+
+    margin-top:18px;
+
+    background:#F8FAFC;
+
+    border:1px solid var(--border);
+
+    border-radius:18px;
+
+    padding:18px;
+
+}
+
+/*=========================================================
+ALERTA DE SINAL
+=========================================================*/
+
+.alerta-critico{
+
+    margin:18px 0;
+
+    padding:16px;
+
+    border-radius:18px;
+
+    font-weight:600;
+
+    text-align:center;
+
+    line-height:1.5;
+
+    animation:pulse .8s;
+
+}
+
+/*=========================================================
+HISTÓRICO
+=========================================================*/
+
+.historico-container{
+
+    display:flex;
+
+    flex-wrap:wrap;
+
+    gap:10px;
+
+    margin:20px 0;
+
+}
+
+.btn-historico{
+
+    width:auto;
+
+    height:38px;
+
+    padding:0 16px;
+
+    margin:0;
+
+    border-radius:30px;
+
+    background:#EEF2F7;
+
+    color:#334155;
+
+    font-size:13px;
+
+    font-weight:600;
+
+    box-shadow:none;
+
+}
+
+.btn-historico:hover{
+
+    background:var(--primary);
+
+    color:white;
+
+    transform:translateY(-2px);
+
+}
+
+/*=========================================================
+ANIMAÇÕES
+=========================================================*/
+
+@keyframes fadeUp{
+
+    from{
+
+        opacity:0;
+
+        transform:translateY(15px);
+
+    }
+
+    to{
+
+        opacity:1;
+
+        transform:translateY(0);
+
+    }
+
+}
+
+@keyframes pulse{
+
+    0%{
+
+        transform:scale(.97);
+
+    }
+
+    50%{
+
+        transform:scale(1.01);
+
+    }
+
+    100%{
+
+        transform:scale(1);
+
+    }
+
+}
+/*=========================================================
+    PAINEL ADMINISTRADOR
+=========================================================*/
+
+#painelAdmin{
+
+    animation:fadeUp .35s ease;
+
+}
+
+#painelAdmin h2{
+
+    text-align:center;
+
+    margin-bottom:25px;
+
+    font-size:28px;
+
+    font-weight:800;
+
+    letter-spacing:-.5px;
+
+}
+
+/*=========================================================
+CARDS
+=========================================================*/
+
+.cards-admin{
+
+    display:grid;
+
+    grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+
+    gap:18px;
+
+    margin:25px 0;
+
+}
+
+.card-admin{
+
+    background:#FFFFFF;
+
+    border:1px solid var(--border);
+
+    border-radius:22px;
+
+    padding:22px;
+
+    text-align:center;
+
+    transition:.25s;
+
+    box-shadow:
+
+        0 10px 25px rgba(15,23,42,.05);
+
+}
+
+.card-admin:hover{
+
+    transform:translateY(-6px);
+
+    box-shadow:
+
+        0 18px 40px rgba(15,23,42,.10);
+
+    border-color:var(--primary);
+
+}
+
+.card-admin span{
+
+    display:block;
+
+    color:var(--textLight);
+
+    font-size:14px;
+
+    font-weight:600;
+
+    margin-bottom:12px;
+
+}
+
+.card-admin h2{
+
+    margin:0;
+
+    color:var(--primary);
+
+    font-size:34px;
+
+    font-weight:800;
+
+}
+
+/*=========================================================
+BOTÕES ADMIN
+=========================================================*/
+
+#baixarJson{
+
+    background:linear-gradient(
+    135deg,
+    #2563EB,
+    #1D4ED8
+    );
+
+}
+
+#copiarEstatisticas{
+
+    background:linear-gradient(
+    135deg,
+    #7C3AED,
+    #6D28D9
+    );
+
+}
+
+#fecharAdmin{
+
+    background:linear-gradient(
+    135deg,
+    #EF4444,
+    #DC2626
+    );
+
+}
+
+#btnAdmin{
+
+    width:auto;
+
+    height:44px;
+
+    padding:0 18px;
+
+    margin:0;
+
+    border-radius:14px;
+
+}
+
+#btnSair{
+
+    width:auto;
+
+    height:44px;
+
+    padding:0 18px;
+
+    margin:0;
+
+    border-radius:14px;
+
+}
+
+/*=========================================================
+RANKING DOS PAINÉIS
+=========================================================*/
+
+#rankingPaineis{
+
+    margin-top:20px;
+
+    max-height:380px;
+
+    overflow-y:auto;
+
+    padding-right:6px;
+
+}
+
+#rankingPaineis::-webkit-scrollbar{
+
+    width:8px;
+
+}
+
+#rankingPaineis::-webkit-scrollbar-thumb{
+
+    background:var(--primary);
+
+    border-radius:50px;
+
+}
+
+.itemPainel{
+
+    background:#F8FAFC;
+
+    border:1px solid var(--border);
+
+    border-radius:18px;
+
+    padding:15px;
+
+    margin-bottom:15px;
+
+}
+
+.itemPainel span{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    margin-bottom:10px;
+
+    font-weight:700;
+
+}
+
+/*=========================================================
+BARRAS
+=========================================================*/
+
+.barraPainel{
+
+    width:100%;
+
+    height:18px;
+
+    background:#E5E7EB;
+
+    border-radius:50px;
+
+    overflow:hidden;
+
+}
+
+.preenchimento{
+
+    height:100%;
+
+    border-radius:50px;
+
+    background:
+
+        linear-gradient(
+        90deg,
+        #00B050,
+        #35D66E
+        );
+
+    transition:width .5s;
+
+}
+
+/*=========================================================
+SAÚDE DA REDE
+=========================================================*/
+
+.barra-saude{
+
+    width:100%;
+
+    height:28px;
+
+    background:#E5E7EB;
+
+    border-radius:50px;
+
+    overflow:hidden;
+
+    margin-top:20px;
+
+}
+
+#barraSaude{
+
+    height:100%;
+
+    width:0;
+
+    border-radius:50px;
+
+    background:
+
+        linear-gradient(
+        90deg,
+        #00B050,
+        #31D56C
+        );
+
+    transition:width .8s;
+
+}
+
+#textoSaude{
+
+    text-align:center;
+
+    margin-top:15px;
+
+    font-size:18px;
+
+    font-weight:700;
+
+}
+
+/*=========================================================
+FILTRO
+=========================================================*/
+
+#filtroPainel{
+
+    width:100%;
+
+    height:52px;
+
+    border-radius:16px;
+
+    border:2px solid transparent;
+
+    background:#F8FAFC;
+
+    padding:0 16px;
+
+    font-size:16px;
+
+    transition:.25s;
+
+    margin:18px 0;
+
+}
+
+#filtroPainel:focus{
+
+    background:white;
+
+    border-color:var(--primary);
+
+}
+/*=========================================================
+    TEMA ESCURO
+=========================================================*/
+
+body.dark-theme{
+
+    --background:#0F172A;
+    --surface:#1E293B;
+
+    --text:#F8FAFC;
+    --textLight:#CBD5E1;
+
+    --border:#334155;
+
+    background:
+        radial-gradient(circle at top,#172554,#020617);
+
+}
+
+body.dark-theme .container{
+
+    background:rgba(30,41,59,.95);
+
+    border:1px solid rgba(255,255,255,.06);
+
+}
+
+body.dark-theme input{
+
+    background:#334155;
+
+    color:white;
+
+}
+
+body.dark-theme input::placeholder{
+
+    color:#94A3B8;
+
+}
+
+body.dark-theme #resultado{
+
+    background:#1E293B;
+
+}
+
+body.dark-theme .campo{
+
+    border-bottom:1px solid #334155;
+
+}
+
+body.dark-theme .card-admin{
+
+    background:#1E293B;
+
+}
+
+body.dark-theme .itemPainel{
+
+    background:#334155;
+
+}
+
+body.dark-theme .btn-historico{
+
+    background:#334155;
+
+    color:#E2E8F0;
+
+}
+
+body.dark-theme .btn-historico:hover{
+
+    background:var(--primary);
+
+}
+
+body.dark-theme .barraPainel{
+
+    background:#475569;
+
+}
+
+body.dark-theme .barra-saude{
+
+    background:#475569;
+
+}
+
+/*=========================================================
+UPDATE BANNER
+=========================================================*/
+
+.update-banner{
+
+    position:fixed;
+
+    left:50%;
+
+    bottom:25px;
+
+    transform:translateX(-50%);
+
+    background:linear-gradient(
+    135deg,
+    #00B050,
+    #00D26A
+    );
+
+    color:white;
+
+    padding:15px 20px;
+
+    border-radius:18px;
+
+    display:none;
+
+    align-items:center;
+
+    gap:15px;
+
+    z-index:9999;
+
+    box-shadow:
+
+        0 15px 35px rgba(0,0,0,.25);
+
+    animation:fadeUp .3s;
+
+}
+
+.update-banner button{
+
+    margin:0;
+
+    width:auto;
+
+    height:42px;
+
+    padding:0 18px;
+
+    background:white;
+
+    color:var(--primary);
+
+    box-shadow:none;
+
+}
+
+/*=========================================================
+VERSÃO
+=========================================================*/
+
+#versaoApp{
+
+    position:fixed;
+
+    bottom:10px;
+
+    left:12px;
+
+    font-size:12px;
+
+    color:#94A3B8;
+
+}
+
+/*=========================================================
+SCROLLBAR
+=========================================================*/
+
+::-webkit-scrollbar{
+
+    width:9px;
+
+}
+
+::-webkit-scrollbar-thumb{
+
+    background:var(--primary);
+
+    border-radius:30px;
+
+}
+
+::-webkit-scrollbar-track{
+
+    background:#E2E8F0;
+
+}
+
+/*=========================================================
+RESPONSIVIDADE
+=========================================================*/
+
+@media(max-width:600px){
+
+.container{
+
+    padding:22px;
+
+    border-radius:24px;
+
+}
+
+.logo{
+
+    width:180px;
+
+}
+
+h1{
+
+    font-size:26px;
+
+}
+
+.cards-admin{
+
+    grid-template-columns:1fr 1fr;
+
+}
+
+.valor{
+
+    font-size:17px;
+
+}
+
+button{
+
+    height:50px;
+
+}
+
+.topo{
+
+    flex-direction:column;
+
+    align-items:stretch;
+
+}
+
+.topo div{
+
+    width:100%;
+
 }
 
 #btnAdmin,
 #btnSair{
-    width:auto;
-    margin-top:0;
-    padding:10px 18px;
-    font-size:14px;
-}
-.nao-encontrado{
-    text-align:center;
-    padding:25px;
+
+    flex:1;
+
 }
 
-.nao-encontrado .icone{
-    font-size:55px;
-    margin-bottom:10px;
+}
+/*=========================================================
+    MICRO ANIMAÇÕES
+=========================================================*/
+
+.container,
+.card-admin,
+.itemPainel,
+button,
+#resultado,
+.btn-historico{
+
+    transition:
+        transform .25s ease,
+        box-shadow .25s ease,
+        border-color .25s ease,
+        background-color .25s ease;
+
 }
 
-.nao-encontrado h2{
-    color:#dc2626;
-    margin-bottom:10px;
+button:hover{
+
+    transform:translateY(-3px);
+
 }
 
-.nao-encontrado p{
-    color:#64748b;
-    margin-bottom:20px;
-}
+button:active{
 
-.nao-encontrado .dica{
-    background:#f8fafc;
-    border:1px solid #e5e7eb;
-    border-radius:12px;
-    padding:15px;
-    color:#475569;
-    line-height:1.6;
-}
-/* =========================
-   PAINEL ADMINISTRADOR
-========================= */
+    transform:scale(.98);
 
-.cards-admin{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(130px,1fr));
-    gap:15px;
-    margin:25px 0;
-}
-
-.card-admin{
-    background:#f8fafc;
-    border:1px solid #e5e7eb;
-    border-radius:15px;
-    padding:18px;
-    text-align:center;
-    transition:.25s;
-    cursor:default;
 }
 
 .card-admin:hover{
-    transform:translateY(-3px);
-    box-shadow:0 10px 20px rgba(0,0,0,.08);
-    border-color:#00b050;
+
+    transform:translateY(-6px);
+
 }
 
-.card-admin span{
-    display:block;
-    color:#64748b;
-    font-size:14px;
-    margin-bottom:10px;
+#resultado{
+
+    animation:fadeResult .35s ease;
+
 }
 
-.card-admin h2{
-    font-size:30px;
-    color:#00b050;
-}
+@keyframes fadeResult{
 
-#painelAdmin h2{
-    color:#0f172a;
-}
-
-#fecharAdmin{
-    width:auto;
-    padding:10px 20px;
-    margin-top:0;
-}
-
-#baixarJson{
-    background:#2563eb;
-}
-
-#baixarJson:hover{
-    background:#1d4ed8;
-}
-
-#copiarEstatisticas{
-    background:#7c3aed;
-}
-
-#copiarEstatisticas:hover{
-    background:#6d28d9;
-}
-/* =====================================
-   DASHBOARD ADMIN
-===================================== */
-
-#rankingPaineis{
-    margin-top:20px;
-}
-
-.itemPainel{
-    margin-bottom:18px;
-}
-
-.itemPainel span{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    margin-bottom:8px;
-    font-weight:bold;
-    color:#0f172a;
-}
-
-.barraPainel{
-    width:100%;
-    height:18px;
-    background:#e5e7eb;
-    border-radius:30px;
-    overflow:hidden;
-}
-
-.preenchimento{
-    height:100%;
-    border-radius:30px;
-    background:linear-gradient(90deg,#00b050,#27d46b);
-    transition:width .6s ease;
-}
-
-.barra-saude{
-    width:100%;
-    height:28px;
-    background:#e5e7eb;
-    border-radius:30px;
-    overflow:hidden;
-    margin-top:15px;
-}
-
-#barraSaude{
-    width:0%;
-    height:100%;
-    border-radius:30px;
-    background:linear-gradient(90deg,#00b050,#00d26a);
-    transition:width .8s ease;
-}
-
-#textoSaude{
-    margin-top:12px;
-    text-align:center;
-    font-weight:bold;
-    color:#0f172a;
-    font-size:18px;
-}
-
-/* Botões do Admin */
-
-#baixarJson,
-#copiarEstatisticas,
-#fecharAdmin{
-    margin-top:15px;
-}
-
-/* Rolagem para muitos painéis */
-
-#rankingPaineis{
-    max-height:350px;
-    overflow-y:auto;
-    padding-right:6px;
-}
-
-#rankingPaineis::-webkit-scrollbar{
-    width:8px;
-}
-
-#rankingPaineis::-webkit-scrollbar-thumb{
-    background:#00b050;
-    border-radius:20px;
-}
-
-#rankingPaineis::-webkit-scrollbar-track{
-    background:#ececec;
-}
-/* =========================
-   TEMA ESCURO
-   ========================= */
-body.dark-theme {
-    background-color: #121212;
-    color: #e0e0e0;
-}
-
-body.dark-theme .container {
-    background-color: #1e1e1e;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.5);
-}
-
-body.dark-theme input {
-    background-color: #2c2c2c;
-    color: #ffffff;
-    border: 1px solid #444;
-}
-
-body.dark-theme .card-admin {
-    background-color: #2c2c2c;
-    border: 1px solid #444;
-}
-
-body.dark-theme .campo .valor {
-    color: #ffffff;
-}
-
-/* =========================
-   HISTÓRICO DE PESQUISA
-   ========================= */
-.historico-container {
-    display: flex;
-    gap: 8px;
-    flex-wrap: wrap;
-    margin-bottom: 20px;
-    justify-content: center;
-}
-
-.btn-historico {
-    background-color: #e0e0e0;
-    color: #333;
-    padding: 5px 12px;
-    border-radius: 15px;
-    font-size: 12px;
-    cursor: pointer;
-    border: none;
-    width: auto;
-}
-
-body.dark-theme .btn-historico {
-    background-color: #333;
-    color: #bbb;
-}
-.alerta-critico {
-    background-color: #ffcccc;
-    color: #cc0000;
-    padding: 10px;
-    border-radius: 8px;
-    margin-top: 10px;
-    margin-bottom: 10px;
-    border: 1px solid #cc0000;
-    font-weight: bold;
-    text-align: center;
-}
-#filtroPainel {
-    width: 100%;
-    padding: 12px;
-    margin: 10px 0;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-    font-size: 16px;
-}
-
-.alerta-critico {
-    background-color: #ffcccc;
-    color: #cc0000;
-    padding: 10px;
-    border-radius: 8px;
-    margin-top: 10px;
-    margin-bottom: 10px;
-    border: 1px solid #cc0000;
-    font-weight: bold;
-    text-align: center;
-}
-/* ==========================
-   BANNER DE ATUALIZAÇÃO
-========================== */
-
-.update-banner{
-    position:fixed;
-    bottom:20px;
-    left:50%;
-    transform:translateX(-50%);
-    background:#00b050;
-    color:#fff;
-    padding:12px 18px;
-    border-radius:12px;
-    display:none;
-    align-items:center;
-    gap:12px;
-    box-shadow:0 6px 20px rgba(0,0,0,.25);
-    z-index:99999;
-    animation:aparecer .3s ease;
-}
-
-.update-banner button{
-    background:#fff;
-    color:#00b050;
-    border:none;
-    padding:8px 15px;
-    border-radius:8px;
-    cursor:pointer;
-    font-weight:bold;
-}
-
-.update-banner button:hover{
-    opacity:.9;
-}
-
-#versaoApp{
-    position:fixed;
-    bottom:8px;
-    left:8px;
-    font-size:11px;
-    color:#999;
-    z-index:9999;
-}
-
-@keyframes aparecer{
     from{
+
         opacity:0;
-        transform:translate(-50%,20px);
+
+        transform:translateY(12px);
+
     }
+
     to{
+
         opacity:1;
-        transform:translate(-50%,0);
+
+        transform:translateY(0);
+
     }
+
 }
+
+/*=========================================================
+    INPUTS
+=========================================================*/
+
+input{
+
+    appearance:none;
+
+}
+
+input:hover{
+
+    border-color:#C7D2FE;
+
+}
+
+/*=========================================================
+    TOPO
+=========================================================*/
+
+.topo{
+
+    padding-bottom:20px;
+
+    border-bottom:1px solid var(--border);
+
+    margin-bottom:25px;
+
+}
+
+/*=========================================================
+    BOTÕES PEQUENOS
+=========================================================*/
+
+#btnAdmin,
+#btnSair{
+
+    min-width:120px;
+
+    font-size:14px;
+
+}
+
+/*=========================================================
+    FOCUS
+=========================================================*/
+
+button:focus-visible,
+input:focus-visible{
+
+    outline:none;
+
+}
+
+/*=========================================================
+    TABELAS FUTURAS
+=========================================================*/
+
+table{
+
+    width:100%;
+
+    border-collapse:collapse;
+
+}
+
+td,
+th{
+
+    padding:12px;
+
+}
+
+/*=========================================================
+    LINKS
+=========================================================*/
+
+a{
+
+    color:inherit;
+
+    text-decoration:none;
+
+}
+
+/*=========================================================
+    IMAGENS
+=========================================================*/
+
+img{
+
+    max-width:100%;
+
+    display:block;
+
+}
+
+/*=========================================================
+    SVG
+=========================================================*/
+
+svg{
+
+    display:block;
+
+    flex-shrink:0;
+
+}
+
+.icon{
+
+    width:20px;
+
+    height:20px;
+
+}
+
+.icon-sm{
+
+    width:16px;
+
+    height:16px;
+
+}
+
+.icon-lg{
+
+    width:26px;
+
+    height:26px;
+
+}
+
+/*=========================================================
+    TRANSIÇÕES
+=========================================================*/
+
+.fade{
+
+    animation:fade .3s ease;
+
+}
+
+@keyframes fade{
+
+    from{
+
+        opacity:0;
+
+    }
+
+    to{
+
+        opacity:1;
+
+    }
+
+}
+
+/*=========================================================
+    LOADING
+=========================================================*/
+
+.loading{
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    padding:30px;
+
+}
+
+.spinner{
+
+    width:36px;
+
+    height:36px;
+
+    border-radius:50%;
+
+    border:4px solid #E5E7EB;
+
+    border-top-color:var(--primary);
+
+    animation:spin .8s linear infinite;
+
+}
+
+@keyframes spin{
+
+    to{
+
+        transform:rotate(360deg);
+
+    }
+
+}
+/*=========================================================
+    UTILITÁRIOS
+=========================================================*/
+
+.hidden{
+    display:none !important;
+}
+
+.flex{
+    display:flex;
+}
+
+.center{
+    justify-content:center;
+    align-items:center;
+}
+
+.text-center{
+    text-align:center;
+}
+
+.mt-10{margin-top:10px;}
+.mt-15{margin-top:15px;}
+.mt-20{margin-top:20px;}
+.mt-25{margin-top:25px;}
+
+.mb-10{margin-bottom:10px;}
+.mb-15{margin-bottom:15px;}
+.mb-20{margin-bottom:20px;}
+.mb-25{margin-bottom:25px;}
+
+
+/*=========================================================
+    SELEÇÃO
+=========================================================*/
+
+::selection{
+
+    background:rgba(0,176,80,.20);
+
+    color:var(--text);
+
+}
+
+
+/*=========================================================
+    PLACEHOLDER
+=========================================================*/
+
+::placeholder{
+
+    color:#94A3B8;
+
+}
+
+
+/*=========================================================
+    DISABLED
+=========================================================*/
+
+button:disabled{
+
+    opacity:.6;
+
+    cursor:not-allowed;
+
+    transform:none;
+
+}
+
+
+/*=========================================================
+    ANIMAÇÕES
+=========================================================*/
+
+.scale-in{
+
+    animation:scaleIn .25s ease;
+
+}
+
+@keyframes scaleIn{
+
+    from{
+
+        opacity:0;
+
+        transform:scale(.95);
+
+    }
+
+    to{
+
+        opacity:1;
+
+        transform:scale(1);
+
+    }
+
+}
+
+.slide-up{
+
+    animation:slideUp .35s ease;
+
+}
+
+@keyframes slideUp{
+
+    from{
+
+        opacity:0;
+
+        transform:translateY(20px);
+
+    }
+
+    to{
+
+        opacity:1;
+
+        transform:translateY(0);
+
+    }
+
+}
+
+
+/*=========================================================
+    EFEITOS
+=========================================================*/
+
+.glass{
+
+    background:rgba(255,255,255,.75);
+
+    backdrop-filter:blur(16px);
+
+}
+
+.shadow{
+
+    box-shadow:var(--shadow);
+
+}
+
+.radius{
+
+    border-radius:var(--radius);
+
+}
+
+
+/*=========================================================
+    SVG
+=========================================================*/
+
+.icon-success{
+
+    color:#16A34A;
+
+}
+
+.icon-warning{
+
+    color:#F59E0B;
+
+}
+
+.icon-danger{
+
+    color:#DC2626;
+
+}
+
+.icon-primary{
+
+    color:var(--primary);
+
+}
+
+
+/*=========================================================
+    TRANSIÇÕES GLOBAIS
+=========================================================*/
+
+*{
+
+    transition:
+
+        background-color .25s,
+
+        color .25s,
+
+        border-color .25s;
+
+}
+
+
+/*=========================================================
+    FIM DO CSS
+=========================================================*/
