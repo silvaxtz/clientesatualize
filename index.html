@@ -1,167 +1,533 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Atualize Telecom - Pesquisa de Clientes</title>
+
+    <title>Atualize Telecom | Pesquisa de Clientes</title>
+
+    <meta name="theme-color" content="#00b050">
+    <meta name="description" content="Sistema interno de pesquisa de clientes da Atualize Telecom">
 
     <link rel="manifest" href="manifest.json">
     <link rel="stylesheet" href="style.css">
-    <meta name="theme-color" content="#00b050">
 
-    <!-- Biblioteca para ler Excel -->
+    <!-- Fonte -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Lucide -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- XLSX -->
     <script src="xlsx.full.min.js"></script>
 
-    <style>
-        .historico-container {
-            display: flex;
-            gap: 8px;
-            flex-wrap: wrap;
-            margin-bottom: 20px;
-            justify-content: center;
-        }
-
-        .btn-historico {
-            background-color: #e0e0e0;
-            color: #333;
-            padding: 5px 12px;
-            border-radius: 15px;
-            font-size: 12px;
-            cursor: pointer;
-            border: none;
-            width: auto;
-        }
-    </style>
 </head>
 
 <body>
 
+<!-- ========================= -->
 <!-- LOGIN -->
-<div id="loginTela" class="container">
-    <img src="logo.png" class="logo" alt="Atualize">
+<!-- ========================= -->
 
-    <input type="text" id="usuario" placeholder="Usuário" autocomplete="username">
-    <input type="password" id="senha" placeholder="Senha" autocomplete="current-password">
+<section id="loginTela" class="container login-container">
 
-    <button id="btnLogin">Entrar</button>
+    <div class="login-card">
 
-    <div id="erroLogin"></div>
-</div>
+        <div class="logo-area">
 
+            <img src="logo.svg"
+                 class="logo"
+                 alt="Atualize Telecom">
+
+            <h1>Atualize Telecom</h1>
+
+            <p>
+                Sistema de Pesquisa de Clientes
+            </p>
+
+        </div>
+
+        <div class="form-group">
+
+            <label>Usuário</label>
+
+            <input
+                type="text"
+                id="usuario"
+                placeholder="Digite seu usuário"
+                autocomplete="username">
+
+        </div>
+
+        <div class="form-group">
+
+            <label>Senha</label>
+
+            <input
+                type="password"
+                id="senha"
+                placeholder="Digite sua senha"
+                autocomplete="current-password">
+
+        </div>
+
+        <button id="btnLogin">
+
+            <i data-lucide="log-in"></i>
+
+            Entrar
+
+        </button>
+
+        <div id="erroLogin"></div>
+
+    </div>
+
+</section>
+
+<!-- ========================= -->
 <!-- SISTEMA -->
-<div id="sistema" class="container" style="display:none;">
+<!-- ========================= -->
 
-    <div class="topo">
-        <span id="usuarioLogado"></span>
+<section id="sistema"
+         class="container"
+         style="display:none;">
 
-        <div style="display:flex;gap:10px;align-items:center;">
-            <button id="btnAdmin" style="display:none;">Admin</button>
-            <button id="btnSair">Sair</button>
-        </div>
+<header class="topo">
 
-    </div>
+<div class="usuario-info">
 
-    <img src="logo.png" class="logo" alt="Atualize">
+<div class="avatar">
 
-    <h1>Pesquisa de Clientes</h1>
-
-    <input
-        type="text"
-        id="pesquisa"
-        placeholder="Digite o PPOE ou IP..."
-        autocomplete="off"
-    >
-
-    <div id="historicoPesquisas" class="historico-container"></div>
-
-    <div id="resultado"></div>
+<i data-lucide="user"></i>
 
 </div>
 
+<div>
+
+<span class="usuario-label">
+Usuário conectado
+</span>
+
+<strong id="usuarioLogado"></strong>
+
+</div>
+
+</div>
+
+<div class="acoes-topo">
+
+<button
+id="btnAdmin"
+style="display:none;">
+
+<i data-lucide="shield"></i>
+
+<span>Admin</span>
+
+</button>
+
+<button id="btnSair">
+
+<i data-lucide="log-out"></i>
+
+<span>Sair</span>
+
+</button>
+
+</div>
+
+</header>
+<!-- ========================= -->
+<!-- CONTEÚDO PRINCIPAL -->
+<!-- ========================= -->
+
+<main class="conteudo">
+
+    <!-- Cabeçalho -->
+
+    <section class="hero">
+
+        <img
+            src="logo.svg"
+            class="logo logo-principal"
+            alt="Atualize Telecom">
+
+        <h1>Pesquisa de Clientes</h1>
+
+        <p>
+            Consulte rapidamente um cliente utilizando o PPOE ou o endereço IP.
+        </p>
+
+    </section>
+
+    <!-- Pesquisa -->
+
+    <section class="pesquisa-card">
+
+        <div class="input-search">
+
+            <i data-lucide="search"></i>
+
+            <input
+                type="text"
+                id="pesquisa"
+                placeholder="Digite o PPOE ou IP..."
+                autocomplete="off">
+
+        </div>
+
+        <small class="texto-ajuda">
+            Exemplo: cliente123 ou 10.10.10.25
+        </small>
+
+    </section>
+
+    <!-- Histórico -->
+
+    <section class="historico-section">
+
+        <div class="section-title">
+
+            <i data-lucide="history"></i>
+
+            <span>Pesquisas recentes</span>
+
+        </div>
+
+        <div
+            id="historicoPesquisas"
+            class="historico-container">
+
+        </div>
+
+    </section>
+
+    <!-- Resultado -->
+
+    <section
+        id="resultado"
+        class="resultado-card">
+
+    </section>
+
+</main>
+
+</section>
+
+<!-- ========================= -->
 <!-- PAINEL ADMIN -->
-<div id="painelAdmin" class="container" style="display:none;">
+<!-- ========================= -->
 
-    <div class="topo">
-        <h2>Painel Administrativo</h2>
-        <button id="fecharAdmin">Fechar</button>
+<section
+    id="painelAdmin"
+    class="container"
+    style="display:none;">
+
+<header class="topo">
+
+<div>
+
+<h2>
+
+<i data-lucide="shield-check"></i>
+
+Painel Administrativo
+
+</h2>
+
+<p>
+Controle e estatísticas da rede
+</p>
+
+</div>
+
+<button id="fecharAdmin">
+
+<i data-lucide="x"></i>
+
+Fechar
+
+</button>
+
+</header>
+
+<div class="cards-admin">
+
+<div class="card-admin">
+
+<div class="icone-card">
+
+<i data-lucide="users"></i>
+
+</div>
+
+<span>Clientes</span>
+
+<h2 id="totalClientes">0</h2>
+
+</div>
+
+<div class="card-admin">
+
+<div class="icone-card">
+
+<i data-lucide="radio-tower"></i>
+
+</div>
+
+<span>Painéis</span>
+
+<h2 id="totalPaineis">0</h2>
+
+</div>
+
+<div class="card-admin">
+
+<div class="icone-card">
+
+<i data-lucide="circle-check-big"></i>
+
+</div>
+
+<span>Bom</span>
+
+<h2 id="totalBom">0</h2>
+
+</div>
+
+<div class="card-admin">
+
+<div class="icone-card">
+
+<i data-lucide="triangle-alert"></i>
+
+</div>
+
+<span>Médio</span>
+
+<h2 id="totalMedio">0</h2>
+
+</div>
+
+<div class="card-admin">
+
+<div class="icone-card">
+
+<i data-lucide="circle-x"></i>
+
+</div>
+
+<span>Ruim</span>
+
+<h2 id="totalRuim">0</h2>
+
+</div>
+
+</div>
+<!-- ========================= -->
+<!-- RANKING -->
+<!-- ========================= -->
+
+<section class="admin-section">
+
+    <div class="section-title">
+
+        <i data-lucide="chart-column"></i>
+
+        <span>Top Painéis</span>
+
     </div>
 
-    <div class="cards-admin">
+    <div id="rankingPaineis" class="ranking-container"></div>
 
-        <div class="card-admin">
-            <span>👥 Clientes</span>
-            <h2 id="totalClientes">0</h2>
-        </div>
+</section>
 
-        <div class="card-admin">
-            <span>📡 Painéis</span>
-            <h2 id="totalPaineis">0</h2>
-        </div>
+<!-- ========================= -->
+<!-- IMPORTAÇÃO -->
+<!-- ========================= -->
 
-        <div class="card-admin">
-            <span>🟢 Bom</span>
-            <h2 id="totalBom">0</h2>
-        </div>
+<section class="admin-section">
 
-        <div class="card-admin">
-            <span>🟡 Médio</span>
-            <h2 id="totalMedio">0</h2>
-        </div>
+    <div class="section-title">
 
-        <div class="card-admin">
-            <span>🔴 Ruim</span>
-            <h2 id="totalRuim">0</h2>
-        </div>
+        <i data-lucide="file-spreadsheet"></i>
+
+        <span>Importar Planilha</span>
 
     </div>
 
-    <hr style="margin:30px 0;">
+    <p class="section-description">
+        Selecione uma planilha (.xlsx ou .xls) para atualizar os clientes e o dashboard.
+    </p>
 
-    <h2>📈 Top Painéis</h2>
+    <div class="upload-card">
 
-    <div id="rankingPaineis"></div>
+        <label class="upload-area" for="inputExcel">
 
-    <hr style="margin:30px 0;">
+            <i data-lucide="upload-cloud"></i>
 
-    <h2>🔄 Importar Planilha</h2>
+            <strong>Selecionar arquivo</strong>
 
-    <div style="margin-bottom:20px;">
+            <span>
+                Clique aqui para escolher uma planilha
+            </span>
+
+        </label>
 
         <input
             type="file"
             id="inputExcel"
             accept=".xlsx,.xls"
-            style="margin-bottom:10px;"
-        >
-
-        <br>
+            hidden>
 
         <button id="btnImportarExcel">
-            Carregar e Atualizar Dashboard
+
+            <i data-lucide="refresh-cw"></i>
+
+            <span>Carregar e Atualizar Dashboard</span>
+
         </button>
 
     </div>
 
-    <hr style="margin:30px 0;">
+</section>
 
-    <button id="baixarJson">📥 Baixar clientes.json</button>
+<!-- ========================= -->
+<!-- FERRAMENTAS -->
+<!-- ========================= -->
 
-    <button id="copiarEstatisticas">
-        📋 Copiar Estatísticas
+<section class="admin-section">
+
+    <div class="section-title">
+
+        <i data-lucide="wrench"></i>
+
+        <span>Ferramentas</span>
+
+    </div>
+
+    <div class="admin-actions">
+
+        <button id="baixarJson">
+
+            <i data-lucide="download"></i>
+
+            <span>Baixar clientes.json</span>
+
+        </button>
+
+        <button id="copiarEstatisticas">
+
+            <i data-lucide="clipboard-list"></i>
+
+            <span>Copiar Estatísticas</span>
+
+        </button>
+
+    </div>
+
+</section>
+
+</section>
+
+<!-- ========================= -->
+<!-- BANNER DE ATUALIZAÇÃO -->
+<!-- ========================= -->
+
+<div id="updateBanner" class="update-banner">
+
+    <div class="update-info">
+
+        <i data-lucide="rocket"></i>
+
+        <div>
+
+            <strong>Nova versão disponível</strong>
+
+            <p>
+                Atualize para utilizar a versão mais recente do sistema.
+            </p>
+
+        </div>
+
+    </div>
+
+    <button id="btnAtualizarApp">
+
+        <i data-lucide="refresh-cw"></i>
+
+        Atualizar
+
     </button>
 
 </div>
 
-<!-- BANNER DE ATUALIZAÇÃO -->
-<div id="updateBanner" class="update-banner">
-    <span>🚀 Nova versão disponível</span>
-    <button id="btnAtualizarApp">Atualizar</button>
-</div>
+<!-- ========================= -->
+<!-- RODAPÉ -->
+<!-- ========================= -->
 
-<!-- VERSÃO DO APLICATIVO -->
-<div id="versaoApp">Versão 1.0.0</div>
+<footer class="footer-app">
 
-<script src="script.js"></script>
+    <div class="footer-left">
+
+        <img
+            src="logo.svg"
+            class="footer-logo"
+            alt="Atualize Telecom">
+
+        <div>
+
+            <strong>Atualize Telecom</strong>
+
+            <p>
+                Sistema de Pesquisa de Clientes
+            </p>
+
+        </div>
+
+    </div>
+
+    <div
+        id="versaoApp"
+        class="versao-app">
+
+        Versão 1.0.0
+
+    </div>
+
+</footer>
+    <!-- ========================= -->
+    <!-- SCRIPTS -->
+    <!-- ========================= -->
+
+    <script src="script.js"></script>
+
+    <script>
+        // Inicializa os ícones Lucide
+        if (window.lucide) {
+            lucide.createIcons();
+        }
+
+        // Caso o sistema altere o HTML dinamicamente,
+        // atualiza os ícones automaticamente.
+        const observer = new MutationObserver(() => {
+            if (window.lucide) {
+                lucide.createIcons();
+            }
+        });
+
+        observer.observe(document.body, {
+            childList: true,
+            subtree: true
+        });
+    </script>
 
 </body>
+
 </html>
