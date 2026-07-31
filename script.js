@@ -2,15 +2,6 @@
 // USUÁRIOS
 // =========================
 
-// ======================================================
-// ATUALIZE TELECOM
-// SCRIPT V2
-// ======================================================
-
-// =========================
-// USUÁRIOS
-// =========================
-
 const usuarios = [
     { usuario: "adriano", senha: "180405a", tipo: "admin" },
     { usuario: "julio", senha: "suporteatlz", tipo: "tecnico" },
@@ -44,45 +35,49 @@ const resultado = document.getElementById("resultado");
 const divHistorico = document.getElementById("historicoPesquisas");
 
 // =========================
-// DADOS
-// =========================
-
-let clientes = [];
-let versaoAtual = null;
-
-// =========================
 // TOAST
 // =========================
 
-function mostrarToast(mensagem, tipo = "sucesso") {
+function mostrarToast(texto){
 
     let toast = document.getElementById("toast");
 
-    if (!toast) {
+    if(!toast){
 
         toast = document.createElement("div");
 
         toast.id = "toast";
 
-        toast.className = "toast";
+        toast.style.cssText=`
+            position:fixed;
+            right:20px;
+            bottom:20px;
+            background:#00b050;
+            color:#fff;
+            padding:14px 20px;
+            border-radius:12px;
+            font-weight:600;
+            z-index:99999;
+            box-shadow:0 10px 25px rgba(0,0,0,.2);
+            opacity:0;
+            transition:.25s;
+        `;
 
         document.body.appendChild(toast);
 
     }
 
-    toast.className = `toast ${tipo}`;
+    toast.innerHTML=texto;
 
-    toast.textContent = mensagem;
-
-    toast.classList.add("show");
+    toast.style.opacity=1;
 
     clearTimeout(toast.timer);
 
-    toast.timer = setTimeout(() => {
+    toast.timer=setTimeout(()=>{
 
-        toast.classList.remove("show");
+        toast.style.opacity=0;
 
-    }, 2500);
+    },2200);
 
 }
 
@@ -90,23 +85,25 @@ function mostrarToast(mensagem, tipo = "sucesso") {
 // LOGIN
 // =========================
 
-function entrar() {
+function entrar(){
 
-    const usuario = usuarioInput.value
-        .trim()
-        .toLowerCase();
+    erroLogin.textContent="";
 
-    const senha = senhaInput.value;
+    const usuario=usuarioInput.value.trim().toLowerCase();
 
-    const encontrado = usuarios.find(u =>
-        u.usuario === usuario &&
-        u.senha === senha
+    const senha=senhaInput.value;
+
+    const encontrado=usuarios.find(u=>
+
+        u.usuario===usuario &&
+
+        u.senha===senha
+
     );
 
-    if (!encontrado) {
+    if(!encontrado){
 
-        erroLogin.textContent =
-            "Usuário ou senha inválidos.";
+        erroLogin.textContent="Usuário ou senha inválidos.";
 
         usuarioInput.focus();
 
@@ -115,73 +112,74 @@ function entrar() {
     }
 
     localStorage.setItem(
+
         "usuarioAtual",
+
         JSON.stringify(encontrado)
+
     );
 
     carregarSistema();
 
 }
 
-btnLogin.addEventListener(
-    "click",
-    entrar
-);
+btnLogin.onclick=entrar;
 
-senhaInput.addEventListener(
-    "keypress",
-    e => {
+senhaInput.addEventListener("keypress",e=>{
 
-        if (e.key === "Enter") {
+    if(e.key==="Enter"){
 
-            entrar();
-
-        }
+        entrar();
 
     }
-);
 
-function carregarSistema() {
+});
 
-    const salvo = JSON.parse(
+function carregarSistema(){
+
+    const salvo=JSON.parse(
+
         localStorage.getItem("usuarioAtual")
+
     );
 
-    if (!salvo) {
+    if(!salvo){
 
-        loginTela.style.display = "block";
+        loginTela.style.display="block";
 
-        sistema.style.display = "none";
+        sistema.style.display="none";
 
-        painelAdmin.style.display = "none";
+        painelAdmin.style.display="none";
 
         return;
 
     }
 
-    loginTela.style.display = "none";
+    loginTela.style.display="none";
 
-    sistema.style.display = "block";
+    sistema.style.display="block";
 
-    usuarioLogado.textContent =
-        `${salvo.usuario} (${salvo.tipo})`;
+    usuarioLogado.textContent=`${salvo.usuario} (${salvo.tipo})`;
 
-    btnAdmin.style.display =
-        salvo.tipo === "admin"
-            ? "inline-flex"
-            : "none";
+    btnAdmin.style.display=
+
+        salvo.tipo==="admin"
+
+        ? "inline-block"
+
+        : "none";
 
     renderizarHistorico();
 
 }
 
-btnSair.addEventListener("click", () => {
+btnSair.onclick=()=>{
 
     localStorage.removeItem("usuarioAtual");
 
     location.reload();
 
-});
+};
 
 carregarSistema();
 
@@ -189,25 +187,30 @@ carregarSistema();
 // CLIENTES & HISTÓRICO
 // =========================
 
+let clientes = [];
+
 // =========================
-// CLIENTES
+// FORMATA IP
 // =========================
 
-function formatarIP(ip) {
+function formatarIP(ip){
 
-    if (!ip) return "";
+    if(!ip) return "";
 
-    ip = String(ip);
+    ip=String(ip);
 
-    if (ip.includes(".")) return ip;
+    if(ip.includes(".")) return ip;
 
-    ip = ip.replace(/\D/g, "");
+    ip=ip.replace(/\D/g,"");
 
-    if (ip.length === 12) {
+    if(ip.length===12){
 
         return ip.replace(
+
             /(\d{3})(\d{3})(\d{3})(\d{3})/,
+
             "$1.$2.$3.$4"
+
         );
 
     }
@@ -217,30 +220,30 @@ function formatarIP(ip) {
 }
 
 // =========================
-// CARREGA JSON
+// CARREGA CLIENTES
 // =========================
 
-async function carregarClientes() {
+async function carregarClientes(){
 
-    try {
+    try{
 
-        const resposta = await fetch("clientes.json");
+        const resposta=await fetch("clientes.json");
 
-        if (!resposta.ok) {
+        if(!resposta.ok){
 
             throw new Error();
 
         }
 
-        clientes = await resposta.json();
+        clientes=await resposta.json();
 
         atualizarDashboard();
 
-    } catch {
+    }
 
-        console.log("clientes.json não encontrado.");
+    catch{
 
-        clientes = [];
+        console.log("clientes.json ainda não existe.");
 
     }
 
@@ -252,85 +255,41 @@ carregarClientes();
 // STATUS
 // =========================
 
-function obterStatus(status) {
+function obterStatus(status){
 
-    switch (Number(status)) {
+    status=Number(status);
 
-        case 3:
+    if(status===3){
 
-            return {
-                texto: "Bom",
-                classe: "status-bom",
-                icone: "🟢"
-            };
+        return{
 
-        case 2:
+            texto:"🟢 Bom",
 
-            return {
-                texto: "Médio",
-                classe: "status-medio",
-                icone: "🟡"
-            };
+            classe:"status-bom"
 
-        default:
-
-            return {
-                texto: "Ruim",
-                classe: "status-ruim",
-                icone: "🔴"
-            };
+        };
 
     }
 
-}
+    if(status===2){
 
-// =========================
-// ALERTA SINAL
-// =========================
+        return{
 
-function criarAlertaSinal(valor) {
+            texto:"🟡 Médio",
 
-    const sinal = parseInt(valor);
+            classe:"status-medio"
 
-    if (isNaN(sinal)) return "";
-
-    if (sinal <= -81) {
-
-        return `
-
-        <div class="alerta-critico">
-
-            ⚠️ Sinal crítico (${valor} dBm)
-
-            <br>
-
-            Verificar fibra, conector ou ONU.
-
-        </div>
-
-        `;
+        };
 
     }
 
-    if (sinal <= -70) {
+    return{
 
-        return `
+        texto:"🔴 Ruim",
 
-        <div class="alerta-critico alerta-amarelo">
+        classe:"status-ruim"
 
-            ⚠️ Atenção (${valor} dBm)
-
-            <br>
-
-            Sinal abaixo do ideal.
-
-        </div>
-
-        `;
-
-    }
-
-    return "";
+    };
 
 }
 
@@ -338,94 +297,157 @@ function criarAlertaSinal(valor) {
 // PESQUISA
 // =========================
 
-pesquisa.addEventListener("input", pesquisarCliente);
+pesquisa.addEventListener("input",pesquisarCliente);
 
-function pesquisarCliente() {
+function pesquisarCliente(){
 
-    const texto = pesquisa.value
-        .trim()
-        .toLowerCase();
+    const texto=pesquisa.value
 
-    if (!texto) {
+    .trim()
 
-        resultado.innerHTML = "";
+    .toLowerCase();
+
+    if(texto===""){
+
+        resultado.innerHTML="";
 
         return;
 
     }
 
-    const cliente = clientes.find(c => {
+    const cliente=clientes.find(c=>{
 
-        return (
-            String(c.ppoe || "")
-                .toLowerCase()
-                .includes(texto)
+        return(
+
+            String(c.ppoe)
+
+            .toLowerCase()
+
+            .includes(texto)
 
             ||
 
-            String(c.ip || "")
-                .toLowerCase()
-                .includes(texto)
+            String(c.ip)
+
+            .toLowerCase()
+
+            .includes(texto)
 
         );
 
     });
 
-    if (!cliente) {
+    if(!cliente){
 
-        resultado.innerHTML = `
+        resultado.innerHTML=`
 
-        <div class="nao-encontrado">
+<div class="nao-encontrado">
 
-            <div class="icone">
+<div class="icone">
 
-                🔍
+🔍
 
-            </div>
+</div>
 
-            <h2>
+<h2>
 
-                Cliente não encontrado
+Cliente não encontrado
 
-            </h2>
+</h2>
 
-            <p>
+<p>
 
-                Confira o PPOE ou IP informado.
+Confira o PPOE ou IP informado.
 
-            </p>
+</p>
 
-        </div>
+</div>
 
-        `;
+`;
 
         return;
 
     }
 
-    const status = obterStatus(cliente.status);
+    const status=obterStatus(cliente.status);
 
-    resultado.innerHTML = `
+    let alerta="";
+
+    const sinal=parseInt(cliente.sinal);
+
+    if(!isNaN(sinal)){
+
+        if(sinal<=-81){
+
+            alerta=`
+
+<div class="alerta-critico">
+
+⚠️ Sinal crítico (${cliente.sinal})
+
+</div>
+
+`;
+
+        }
+
+        else if(sinal<=-70){
+
+            alerta=`
+
+<div class="alerta-critico alerta-amarelo">
+
+⚠️ Atenção (${cliente.sinal})
+
+</div>
+
+`;
+
+        }
+
+    }
+
+resultado.innerHTML=`
 
 <div class="campo">
 
-<div class="titulo">PPOE</div>
+<div class="titulo">
 
-<div class="valor">${cliente.ppoe}</div>
+PPOE
+
+</div>
+
+<div class="valor">
+
+${cliente.ppoe}
+
+</div>
 
 </div>
 
 <div class="campo">
 
-<div class="titulo">Painel</div>
+<div class="titulo">
 
-<div class="valor">${cliente.painel}</div>
+Painel
+
+</div>
+
+<div class="valor">
+
+${cliente.painel}
+
+</div>
 
 </div>
 
 <div class="campo">
 
-<div class="titulo">IP</div>
+<div class="titulo">
+
+IP
+
+</div>
 
 <div class="valor">
 
@@ -437,11 +459,15 @@ ${formatarIP(cliente.ip)}
 
 <div class="campo">
 
-<div class="titulo">SSID</div>
+<div class="titulo">
+
+SSID
+
+</div>
 
 <div class="valor">
 
-${cliente.ssid || "Não informado"}
+${cliente.ssid||"Não informado"}
 
 </div>
 
@@ -463,7 +489,7 @@ ${cliente.sinal}
 
 </div>
 
-${criarAlertaSinal(cliente.sinal)}
+${alerta}
 
 <div class="campo">
 
@@ -475,7 +501,7 @@ Status
 
 <div class="${status.classe}">
 
-${status.icone} ${status.texto}
+${status.texto}
 
 </div>
 
@@ -511,56 +537,67 @@ ${status.icone} ${status.texto}
 // HISTÓRICO
 // =========================
 
-window.copiarEsalvar = function(texto, historico) {
+window.copiarEsalvar=function(texto,historico){
 
     navigator.clipboard.writeText(texto);
 
-    mostrarToast("Copiado!");
+    mostrarToast("✔ Copiado");
 
-    let lista = JSON.parse(
-        localStorage.getItem("historico_pesquisas") || "[]"
+    let lista=JSON.parse(
+
+        localStorage.getItem("historico_pesquisas")||"[]"
+
     );
 
-    lista = lista.filter(i => i !== historico);
+    lista=lista.filter(h=>h!==historico);
 
     lista.unshift(historico);
 
-    if (lista.length > 5) {
+    if(lista.length>5){
 
         lista.pop();
 
     }
 
     localStorage.setItem(
+
         "historico_pesquisas",
+
         JSON.stringify(lista)
+
     );
 
     renderizarHistorico();
 
 };
 
-function renderizarHistorico() {
+function renderizarHistorico(){
 
-    const lista = JSON.parse(
-        localStorage.getItem("historico_pesquisas") || "[]"
+    const lista=JSON.parse(
+
+        localStorage.getItem("historico_pesquisas")||"[]"
+
     );
 
-    divHistorico.innerHTML = lista
-        .map(item => `
-            <button
-                class="btn-historico"
-                onclick="usarHistorico('${item}')">
-                🕒 ${item}
-            </button>
-        `)
-        .join("");
+    divHistorico.innerHTML=lista.map(item=>`
+
+<button
+
+class="btn-historico"
+
+onclick="usarHistorico('${item}')">
+
+🕒 ${item}
+
+</button>
+
+`).join("");
 
 }
 
-window.usarHistorico = function(valor) {
+window.usarHistorico=function(item){
 
-    pesquisa.value = valor;
+    pesquisa.value=item;
 
     pesquisarCliente();
 
@@ -570,12 +607,8 @@ window.usarHistorico = function(valor) {
 // DASHBOARD ADMIN
 // =========================
 
-// ======================================================
-// DASHBOARD ADMIN
-// ======================================================
-
 btnAdmin.addEventListener("click", abrirPainelAdmin);
-fecharAdmin.addEventListener("click", fecharPainelAdministrador);
+fecharAdmin.addEventListener("click", fecharPainelAdmin);
 
 function abrirPainelAdmin() {
 
@@ -586,20 +619,50 @@ function abrirPainelAdmin() {
 
 }
 
-function fecharPainelAdministrador() {
+function fecharPainelAdmin() {
 
     painelAdmin.style.display = "none";
     sistema.style.display = "block";
 
 }
 
-// ======================================================
-// ATUALIZA DASHBOARD
-// ======================================================
+// =========================
+// ANIMAÇÃO DOS NÚMEROS
+// =========================
 
-function atualizarDashboard() {
+function animarNumero(elemento, valorFinal){
 
-    if (!clientes.length) return;
+    const inicio = 0;
+    const duracao = 700;
+    const inicioTempo = performance.now();
+
+    function atualizar(tempo){
+
+        const progresso = Math.min((tempo - inicioTempo) / duracao, 1);
+
+        elemento.textContent = Math.floor(
+            inicio + (valorFinal - inicio) * progresso
+        );
+
+        if(progresso < 1){
+
+            requestAnimationFrame(atualizar);
+
+        }
+
+    }
+
+    requestAnimationFrame(atualizar);
+
+}
+
+// =========================
+// DASHBOARD
+// =========================
+
+function atualizarDashboard(){
+
+    if(!clientes.length) return;
 
     const totalClientes = clientes.length;
 
@@ -607,31 +670,54 @@ function atualizarDashboard() {
         clientes.map(c => c.painel)
     ).size;
 
-    const totalBom = clientes.filter(c => Number(c.status) === 3).length;
+    const totalBom = clientes.filter(
+        c => Number(c.status) === 3
+    ).length;
 
-    const totalMedio = clientes.filter(c => Number(c.status) === 2).length;
+    const totalMedio = clientes.filter(
+        c => Number(c.status) === 2
+    ).length;
 
     const totalRuim = totalClientes - totalBom - totalMedio;
 
-    document.getElementById("totalClientes").textContent = totalClientes;
-    document.getElementById("totalPaineis").textContent = totalPaineis;
-    document.getElementById("totalBom").textContent = totalBom;
-    document.getElementById("totalMedio").textContent = totalMedio;
-    document.getElementById("totalRuim").textContent = totalRuim;
+    animarNumero(
+        document.getElementById("totalClientes"),
+        totalClientes
+    );
+
+    animarNumero(
+        document.getElementById("totalPaineis"),
+        totalPaineis
+    );
+
+    animarNumero(
+        document.getElementById("totalBom"),
+        totalBom
+    );
+
+    animarNumero(
+        document.getElementById("totalMedio"),
+        totalMedio
+    );
+
+    animarNumero(
+        document.getElementById("totalRuim"),
+        totalRuim
+    );
 
     atualizarRanking();
 
 }
 
-// ======================================================
+// =========================
 // RANKING
-// ======================================================
+// =========================
 
-function atualizarRanking() {
+function atualizarRanking(){
 
     const ranking = {};
 
-    clientes.forEach(cliente => {
+    clientes.forEach(cliente=>{
 
         ranking[cliente.painel] =
             (ranking[cliente.painel] || 0) + 1;
@@ -640,212 +726,223 @@ function atualizarRanking() {
 
     const top10 = Object.entries(ranking)
 
-        .sort((a, b) => b[1] - a[1])
+        .sort((a,b)=>b[1]-a[1])
 
-        .slice(0, 10);
+        .slice(0,10);
 
-    const divRanking =
-        document.getElementById("rankingPaineis");
+    const div = document.getElementById("rankingPaineis");
 
-    divRanking.innerHTML = "";
+    div.innerHTML = "";
 
-    top10.forEach(([painel, quantidade], index) => {
+    top10.forEach(([painel,total],indice)=>{
 
-        const item = document.createElement("div");
+        const porcentagem =
+            (total / clientes.length) * 100;
 
-        item.className = "ranking-item";
+        div.innerHTML += `
 
-        item.innerHTML = `
-
-<div class="ranking-posicao">
-
-${index + 1}º
-
-</div>
-
-<div class="ranking-info">
-
-<strong>${painel}</strong>
+<div class="itemPainel">
 
 <span>
 
-${quantidade} clientes
+<strong>${indice+1}º ${painel}</strong>
+
+<strong>${total}</strong>
 
 </span>
+
+<div class="barraPainel">
+
+<div
+class="preenchimento"
+style="width:${porcentagem}%">
+
+</div>
+
+</div>
 
 </div>
 
 `;
-
-        divRanking.appendChild(item);
 
     });
 
 }
 
-// ======================================================
+// =========================
 // COPIAR ESTATÍSTICAS
-// ======================================================
+// =========================
 
 document
 .getElementById("copiarEstatisticas")
-.addEventListener("click", copiarEstatisticas);
-
-function copiarEstatisticas() {
+.onclick = ()=>{
 
     const total = clientes.length;
 
-    const bom = clientes.filter(c => Number(c.status) === 3).length;
+    const bom = clientes.filter(
+        c=>Number(c.status)===3
+    ).length;
 
-    const medio = clientes.filter(c => Number(c.status) === 2).length;
+    const medio = clientes.filter(
+        c=>Number(c.status)===2
+    ).length;
 
     const ruim = total - bom - medio;
 
-    const texto = `
+    navigator.clipboard.writeText(
 
-📊 Atualize Telecom
+`📊 Atualize Telecom
 
 👥 Clientes: ${total}
-
-📡 Painéis: ${new Set(clientes.map(c => c.painel)).size}
 
 🟢 Bom: ${bom}
 
 🟡 Médio: ${medio}
 
-🔴 Ruim: ${ruim}
+🔴 Ruim: ${ruim}`
 
-`;
+    );
 
-    navigator.clipboard.writeText(texto.trim());
+    mostrarToast("✔ Estatísticas copiadas");
 
-    mostrarToast("Estatísticas copiadas.");
+};
 
-}
-
-// ======================================================
+// =========================
 // DOWNLOAD JSON
-// ======================================================
+// =========================
 
 document
 .getElementById("baixarJson")
-.addEventListener("click", baixarJSON);
-
-function baixarJSON() {
+.onclick = ()=>{
 
     const blob = new Blob(
 
-        [JSON.stringify(clientes, null, 2)],
+        [
+            JSON.stringify(
+                clientes,
+                null,
+                2
+            )
+        ],
 
         {
-            type: "application/json"
+            type:"application/json"
         }
 
     );
 
-    const url = URL.createObjectURL(blob);
-
     const link = document.createElement("a");
 
-    link.href = url;
+    link.href = URL.createObjectURL(blob);
 
     link.download = "clientes.json";
 
     link.click();
 
-    URL.revokeObjectURL(url);
+    URL.revokeObjectURL(link.href);
 
-    mostrarToast("Download iniciado.");
+    mostrarToast("✔ Download iniciado");
 
-}
+};
+
 // =========================
 // IMPORTAÇÃO DE EXCEL
 // =========================
-
-// ======================================================
-// IMPORTAÇÃO DE EXCEL
-// ======================================================
 
 const inputExcel = document.getElementById("inputExcel");
 const btnImportarExcel = document.getElementById("btnImportarExcel");
 
-btnImportarExcel.addEventListener("click", importarExcel);
+btnImportarExcel.addEventListener("click", importarPlanilha);
 
-async function importarExcel() {
+async function importarPlanilha(){
 
     const arquivo = inputExcel.files[0];
 
-    if (!arquivo) {
+    if(!arquivo){
 
-        mostrarToast("Selecione uma planilha.", "erro");
+        mostrarToast("Selecione uma planilha.");
 
         return;
 
     }
 
-    try {
+    btnImportarExcel.disabled = true;
 
-        btnImportarExcel.disabled = true;
+    const textoOriginal = btnImportarExcel.innerHTML;
 
-        btnImportarExcel.textContent = "Importando...";
+    btnImportarExcel.innerHTML = "⏳ Importando...";
+
+    try{
 
         const buffer = await arquivo.arrayBuffer();
 
-        const workbook = XLSX.read(buffer, {
-            type: "array"
+        const workbook = XLSX.read(buffer,{
+            type:"array"
         });
 
-        const novosClientes = [];
+        let novosClientes = [];
 
-        workbook.SheetNames.forEach(nomeAba => {
+        workbook.SheetNames.forEach(nomeAba=>{
 
-            const worksheet = workbook.Sheets[nomeAba];
+            const sheet = workbook.Sheets[nomeAba];
 
             const painel = String(
-                worksheet["A4"]?.v || ""
+                sheet["A4"]?.v || ""
             ).trim();
 
-            if (!painel) return;
+            if(!painel) return;
 
             const nomePainel = "P " + painel;
 
             const ssid = String(
-                worksheet["J4"]?.v || ""
+                sheet["J4"]?.v || ""
             ).trim();
 
             const linhas = XLSX.utils.sheet_to_json(
-                worksheet,
+                sheet,
                 {
-                    header: 1,
-                    defval: ""
+                    header:1,
+                    defval:""
                 }
             );
 
-            for (let i = 7; i < linhas.length; i++) {
+            for(let i=7;i<linhas.length;i++){
 
                 const linha = linhas[i];
 
-                if (!linha) continue;
+                if(!linha) continue;
 
-                const ppoe = String(linha[0] || "").trim();
+                const ppoe = String(
+                    linha[0] || ""
+                ).trim();
 
-                const ip = String(linha[3] || "").trim();
+                const ip = String(
+                    linha[3] || ""
+                ).trim();
 
-                const sinal = String(linha[6] || "").trim();
+                const sinal = String(
+                    linha[6] || ""
+                ).trim();
 
-                if (!ppoe && !ip && !sinal) continue;
-
-                const valor = Number(sinal);
+                if(
+                    !ppoe &&
+                    !ip &&
+                    !sinal
+                ){
+                    continue;
+                }
 
                 let status = 1;
 
-                if (!isNaN(valor)) {
+                const valor = Number(sinal);
 
-                    if (valor >= -65) {
+                if(!isNaN(valor)){
+
+                    if(valor >= -65){
 
                         status = 3;
 
-                    } else if (valor >= -75) {
+                    }else if(valor >= -75){
 
                         status = 2;
 
@@ -857,7 +954,7 @@ async function importarExcel() {
 
                     ppoe,
 
-                    painel: nomePainel,
+                    painel:nomePainel,
 
                     ip,
 
@@ -877,158 +974,34 @@ async function importarExcel() {
 
         atualizarDashboard();
 
+        inputExcel.value = "";
+
         mostrarToast(
 
-            `${clientes.length} clientes importados.`
+            `✔ ${clientes.length} clientes carregados`
 
         );
 
-        inputExcel.value = "";
+    }
 
-    } catch (erro) {
+    catch(erro){
 
         console.error(erro);
 
         mostrarToast(
 
-            "Erro ao importar planilha.",
-
-            "erro"
+            "Erro ao importar planilha."
 
         );
 
-    } finally {
+    }
+
+    finally{
 
         btnImportarExcel.disabled = false;
 
-        btnImportarExcel.innerHTML = `
-            Importar Planilha
-        `;
+        btnImportarExcel.innerHTML = textoOriginal;
 
     }
-
-}
-
-// ======================================================
-// SISTEMA DE ATUALIZAÇÃO
-// ======================================================
-
-const banner = document.getElementById("updateBanner");
-const btnAtualizar = document.getElementById("btnAtualizarApp");
-const versaoTexto = document.getElementById("versaoApp");
-
-async function verificarNovaVersao() {
-
-    try {
-
-        const resposta = await fetch(
-
-            "version.json?v=" + Date.now(),
-
-            {
-
-                cache: "no-store"
-
-            }
-
-        );
-
-        const dados = await resposta.json();
-
-        if (versaoAtual === null) {
-
-            versaoAtual = dados.version;
-
-            versaoTexto.textContent =
-                "Versão " + dados.version;
-
-            return;
-
-        }
-
-        if (dados.version !== versaoAtual) {
-
-            banner.style.display = "flex";
-
-        }
-
-    } catch (erro) {
-
-        console.log(
-
-            "Falha ao verificar versão.",
-
-            erro
-
-        );
-
-    }
-
-}
-
-verificarNovaVersao();
-
-setInterval(
-
-    verificarNovaVersao,
-
-    10000
-
-);
-
-// ======================================================
-// BOTÃO ATUALIZAR
-// ======================================================
-
-btnAtualizar.addEventListener(
-
-    "click",
-
-    async () => {
-
-        const registro =
-            await navigator.serviceWorker.getRegistration();
-
-        if (!registro) return;
-
-        await registro.update();
-
-        if (registro.waiting) {
-
-            registro.waiting.postMessage(
-
-                "SKIP_WAITING"
-
-            );
-
-        }
-
-    }
-
-);
-
-// ======================================================
-// SERVICE WORKER
-// ======================================================
-
-if ("serviceWorker" in navigator) {
-
-    navigator.serviceWorker.addEventListener(
-
-        "controllerchange",
-
-        () => location.reload()
-
-    );
-
-}
-
-// ======================================================
-// LUCIDE
-// ======================================================
-
-if (window.lucide) {
-
-    lucide.createIcons();
 
 }
