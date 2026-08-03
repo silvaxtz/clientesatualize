@@ -139,12 +139,75 @@ pesquisa.addEventListener("input", () => {
 
     if (!cliente) {
         resultado.innerHTML = `
-            <div class="nao-encontrado">
-                <div class="icone">🔍</div>
-                <h2>Cliente não encontrado</h2>
-                <p>Verifique se o PPOE ou IP foi digitado corretamente.</p>
-            </div>
-        `;
+<div class="campo">
+    <div class="titulo">
+        <i class="icon-user"></i>
+        <span>PPOE</span>
+    </div>
+    <div class="valor">${cliente.ppoe}</div>
+</div>
+
+<div class="campo">
+    <div class="titulo">
+        <i class="icon-waypoints"></i>
+        <span>Painel</span>
+    </div>
+    <div class="valor">${cliente.painel}</div>
+</div>
+
+<div class="campo">
+    <div class="titulo">
+        <i class="icon-globe"></i>
+        <span>IP</span>
+    </div>
+    <div class="valor">${formatarIP(cliente.ip)}</div>
+</div>
+
+<div class="campo">
+    <div class="titulo">
+        <i class="icon-wifi"></i>
+        <span>SSID</span>
+    </div>
+    <div class="valor">${cliente.ssid || "Não informado"}</div>
+</div>
+
+<div class="campo">
+    <div class="titulo">
+        <i class="icon-activity"></i>
+        <span>Última Medição</span>
+    </div>
+    <div class="valor">${cliente.sinal} dBm</div>
+</div>
+
+${alertaHtml}
+
+<div class="campo">
+    <div class="titulo">
+        <i class="icon-circle-check"></i>
+        <span>Status</span>
+    </div>
+
+    <div class="${classe}">
+        ${status}
+    </div>
+</div>
+
+<div class="botoes-copiar">
+
+    <button onclick="copiarEsalvar('${formatarIP(cliente.ip)}','${cliente.ppoe}')">
+        📋 Copiar IP
+    </button>
+
+    <button onclick="copiarEsalvar('${cliente.ppoe}','${cliente.ppoe}')">
+        📋 Copiar PPOE
+    </button>
+
+    <button onclick="copiarEsalvar('${cliente.ssid}','${cliente.ppoe}')">
+        📋 Copiar SSID
+    </button>
+
+</div>
+`;
         return;
     }
 
