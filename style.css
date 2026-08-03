@@ -16,18 +16,20 @@ body{
 
 .container{
     width:100%;
-    max-width:500px;
-    background:#ffffff;
-    border-radius:20px;
-    padding:30px;
-    box-shadow:0 12px 35px rgba(0,0,0,.12);
-    border:1px solid #e5e7eb;
+    max-width:540px;
+    background:#fff;
+    border-radius:22px;
+    padding:32px;
+    border:1px solid #edf2f7;
+    box-shadow:
+        0 8px 30px rgba(15,23,42,.08),
+        0 2px 8px rgba(15,23,42,.04);
 }
 
 .logo{
-    width:240px;
+    width:210px;
     display:block;
-    margin:0 auto 20px;
+    margin:0 auto 28px;
 }
 
 h1{
@@ -39,50 +41,50 @@ h1{
 
 #pesquisa{
     width:100%;
-    padding:16px;
-    border:2px solid #d1d5db;
-    border-radius:12px;
-    font-size:18px;
-    outline:none;
-    margin-bottom:20px;
-    transition:.2s;
+    height:56px;
+    padding:0 18px;
+    border:2px solid #E5E7EB;
+    border-radius:14px;
+    font-size:16px;
     background:#fff;
-    color:#111827;
+    transition:.25s;
+}
+
+#pesquisa:hover{
+    border-color:#C9D3DF;
 }
 
 #pesquisa:focus{
-    border-color:#00b050;
-    box-shadow:0 0 0 4px rgba(0,176,80,.15);
+    border-color:#00B050;
+    box-shadow:0 0 0 5px rgba(0,176,80,.12);
 }
 
 #resultado{
-    background:#f8fafc;
-    border:1px solid #e5e7eb;
-    border-radius:14px;
-    padding:20px;
-    color:#111827;
-    min-height:120px;
+    background:#fff;
+    border:1px solid #EDF2F7;
+    border-radius:18px;
+    padding:22px;
+    box-shadow:0 6px 18px rgba(15,23,42,.05);
 }
 
 .campo{
-    margin-bottom:14px;
-    padding-bottom:10px;
-    border-bottom:1px solid #e5e7eb;
-}
-
-.campo:last-child{
-    border-bottom:none;
+    padding:14px 0;
+    border-bottom:1px solid #EEF2F7;
 }
 
 .titulo{
-    color:#00b050;
-    font-weight:bold;
-    margin-bottom:4px;
+    color:#00B050;
+    font-size:13px;
+    font-weight:700;
+    text-transform:uppercase;
+    letter-spacing:.8px;
+    margin-bottom:6px;
 }
 
 .valor{
-    font-size:18px;
-    color:#111827;
+    font-size:17px;
+    font-weight:600;
+    color:#0F172A;
 }
 
 .status-bom{
@@ -101,22 +103,21 @@ h1{
 }
 
 button{
-    margin-top:12px;
     width:100%;
-    padding:14px;
+    height:50px;
     border:none;
-    border-radius:12px;
-    background:#00b050;
+    border-radius:14px;
+    background:#00B050;
     color:#fff;
-    cursor:pointer;
-    font-size:16px;
-    font-weight:bold;
-    transition:.2s;
+    font-size:15px;
+    font-weight:600;
+    transition:.25s;
 }
 
 button:hover{
-    background:#009640;
-    transform:translateY(-1px);
+    background:#009345;
+    transform:translateY(-2px);
+    box-shadow:0 8px 18px rgba(0,176,80,.25);
 }
 
 button:active{
@@ -212,27 +213,20 @@ button:active{
    PAINEL ADMINISTRADOR
 ========================= */
 
-.cards-admin{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(130px,1fr));
-    gap:15px;
-    margin:25px 0;
-}
-
 .card-admin{
-    background:#f8fafc;
-    border:1px solid #e5e7eb;
-    border-radius:15px;
-    padding:18px;
+    background:#fff;
+    border:1px solid #EDF2F7;
+    border-radius:18px;
+    padding:22px;
     text-align:center;
     transition:.25s;
-    cursor:default;
+    box-shadow:0 5px 12px rgba(15,23,42,.04);
+
 }
 
 .card-admin:hover{
-    transform:translateY(-3px);
-    box-shadow:0 10px 20px rgba(0,0,0,.08);
-    border-color:#00b050;
+    transform:translateY(-4px);
+    box-shadow:0 14px 30px rgba(15,23,42,.10);
 }
 
 .card-admin span{
