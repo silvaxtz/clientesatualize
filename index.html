@@ -41,8 +41,23 @@
 <div id="loginTela" class="container">
     <img src="logo.png" class="logo" alt="Atualize">
 
-    <input type="text" id="usuario" placeholder="Usuário" autocomplete="username">
-    <input type="password" id="senha" placeholder="Senha" autocomplete="current-password">
+    <div class="input-icon">
+    <i class="icon-user"></i>
+    <input
+        type="text"
+        id="usuario"
+        placeholder="Usuário"
+        autocomplete="username">
+</div>
+
+<div class="input-icon">
+    <i class="icon-lock"></i>
+    <input
+        type="password"
+        id="senha"
+        placeholder="Senha"
+        autocomplete="current-password">
+</div>
 
     <button id="btnLogin">Entrar</button>
 
@@ -56,9 +71,14 @@
         <span id="usuarioLogado"></span>
 
         <div style="display:flex;gap:10px;align-items:center;">
-            <button id="btnAdmin" style="display:none;">Admin</button>
-            <button id="btnSair">Sair</button>
-        </div>
+           <button id="btnAdmin">
+    <i class="icon-settings"></i>
+    Admin
+</button>
+           <button id="btnSair">
+    <i class="icon-log-out"></i>
+    Sair
+</button>
 
     </div>
 
@@ -66,12 +86,17 @@
 
     <h1>Pesquisa de Clientes</h1>
 
+  <div class="search-box">
+
+    <i class="icon-search"></i>
+
     <input
         type="text"
         id="pesquisa"
-        placeholder="Digite o PPOE ou IP..."
-        autocomplete="off"
+        placeholder="Pesquisar PPOE ou IP..."
     >
+
+</div>
 
     <div id="historicoPesquisas" class="historico-container"></div>
 
@@ -89,30 +114,45 @@
 
     <div class="cards-admin">
 
-        <div class="card-admin">
-            <span>👥 Clientes</span>
-            <h2 id="totalClientes">0</h2>
-        </div>
+      <div class="card-admin">
+    <div class="card-title">
+        <i class="icon-users"></i>
+        <span>Clientes</span>
+    </div>
+    <h2 id="totalClientes">0</h2>
+</div>
 
-        <div class="card-admin">
-            <span>📡 Painéis</span>
-            <h2 id="totalPaineis">0</h2>
-        </div>
+       <div class="card-admin">
+    <div class="card-title">
+        <i class="icon-waypoints"></i>
+        <span>Painéis</span>
+    </div>
+    <h2 id="totalPaineis">0</h2>
+</div>
 
-        <div class="card-admin">
-            <span>🟢 Bom</span>
-            <h2 id="totalBom">0</h2>
-        </div>
+<div class="card-admin">
+    <div class="card-title">
+        <i class="icon-circle-check-big"></i>
+        <span>Bom</span>
+    </div>
+    <h2 id="totalBom">0</h2>
+</div>
 
-        <div class="card-admin">
-            <span>🟡 Médio</span>
-            <h2 id="totalMedio">0</h2>
-        </div>
+<div class="card-admin">
+    <div class="card-title">
+        <i class="icon-triangle-alert"></i>
+        <span>Médio</span>
+    </div>
+    <h2 id="totalMedio">0</h2>
+</div>
 
-        <div class="card-admin">
-            <span>🔴 Ruim</span>
-            <h2 id="totalRuim">0</h2>
-        </div>
+<div class="card-admin">
+    <div class="card-title">
+        <i class="icon-circle-x"></i>
+        <span>Ruim</span>
+    </div>
+    <h2 id="totalRuim">0</h2>
+</div>
 
     </div>
 
@@ -155,7 +195,9 @@
 
 <!-- BANNER DE ATUALIZAÇÃO -->
 <div id="updateBanner" class="update-banner">
-    <span>🚀 Nova versão disponível</span>
+   <i class="icon-download"></i>
+
+Nova versão disponível
     <button id="btnAtualizarApp">Atualizar</button>
 </div>
 
