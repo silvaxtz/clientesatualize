@@ -494,3 +494,45 @@ body.dark-theme .btn-historico {
         transform:translate(-50%,0);
     }
 }
+
+.titulo{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    font-size:13px;
+    text-transform:uppercase;
+    letter-spacing:.7px;
+    font-weight:700;
+    color:#00b050;
+    margin-bottom:8px;
+}
+
+.titulo i{
+    font-size:18px;
+    color:#00b050;
+}
+
+.campo{
+    padding:16px 0;
+    border-bottom:1px solid #edf2f7;
+}
+
+.campo:last-child{
+    border-bottom:none;
+}
+
+.valor{
+    font-size:17px;
+    font-weight:600;
+    color:#111827;
+}
+
+.botoes-copiar{
+    display:grid;
+    gap:10px;
+    margin-top:20px;
+}
+
+.botoes-copiar button{
+    margin:0;
+}
