@@ -450,7 +450,7 @@
   {
     "ppoe": "joseandre",
     "painel": "P CANUDOS",
-    "ip": "192.168.177.77",
+    "ip": "192.168.177.79",
     "ssid": "ATUALIZE PAINEL CANUDOS",
     "sinal": "-60/-61",
     "status": 3
@@ -1426,7 +1426,7 @@
   {
     "ppoe": "jheymsoncleiton",
     "painel": "P TAVARES",
-    "ip": "192.168.177.77",
+    "ip": "192168177121",
     "ssid": "ATUALIZE TAVARES 2",
     "sinal": "-87/-85",
     "status": 1
