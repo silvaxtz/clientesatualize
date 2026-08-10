@@ -204,6 +204,10 @@ if (!isNaN(sinalValor)) {
         <div class="valor">${formatarIP(cliente.ip)}</div>
     </div>
     <div class="campo">
+    <div class="titulo">IP do Painel</div>
+    <div class="valor">${formatarIP(cliente.ip_painel) || "Não informado"}</div>
+    </div>
+    <div class="campo">
          <div class="titulo">SSID</div>
         <div class="valor">${cliente.ssid || "Não informado"}</div>
     </div>
@@ -218,6 +222,9 @@ if (!isNaN(sinalValor)) {
     <div class="botoes-copiar">
         <button onclick="copiarEsalvar('${formatarIP(cliente.ip)}', '${cliente.ppoe}')">
             📋 Copiar IP
+        </button>
+        <button onclick="copiarEsalvar('${formatarIP(cliente.ip_painel)}', '${cliente.ppoe}')">
+            📋 Copiar IP Painel
         </button>
 
         <button onclick="copiarEsalvar('${cliente.ppoe}', '${cliente.ppoe}')">
@@ -367,7 +374,10 @@ btnImportarExcel.addEventListener("click", () => {
                 const valorA4 = String(worksheet["A4"]?.v || "").trim();
                 if (!valorA4) return;
 
-                const nomePainel = "P " + valorA4;
+               const nomePainel = "P " + valorA4;
+
+                // IP do painel (D4)
+                const ipPainel = formatarIP(worksheet["D4"]?.v || "");
 
                 // SSID do painel (J4)
                 const ssid = String(worksheet["J4"]?.v || "").trim();
@@ -413,12 +423,13 @@ btnImportarExcel.addEventListener("click", () => {
                     }
 
                     novosClientes.push({
-                        ppoe: ppoe,
-                        painel: nomePainel,
-                        ip: ip,
-                        ssid: ssid,
-                        sinal: sinal,
-                        status: status
+                    ppoe: ppoe,
+                    painel: nomePainel,
+                    ip: ip,            
+                    ip_painel: ipPainel,
+                    ssid: ssid,
+                    sinal: sinal,
+                    status: status
                     });
                 }
             });
