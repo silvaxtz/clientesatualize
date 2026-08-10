@@ -1260,8 +1260,8 @@
     "painel": "P PE DA SERRA",
     "ip": "192168220126",
     "ssid": "ATUALIZE PE DA SERRA",
-    "sinal": "-79/-81",
-    "status": 1
+    "sinal": "-68/-71",
+    "status": 2
   },
   {
     "ppoe": "marciopinto",
@@ -1428,8 +1428,8 @@
     "painel": "P TAVARES",
     "ip": "192168177121",
     "ssid": "ATUALIZE TAVARES 2",
-    "sinal": "-87/-85",
-    "status": 1
+    "sinal": "-72/-73",
+    "status": 2
   },
   {
     "ppoe": "jocilenemaria",
