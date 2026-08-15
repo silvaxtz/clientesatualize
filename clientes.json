@@ -191,7 +191,7 @@
   {
     "ppoe": "fraciaragomes",
     "painel": "P CACHOEIRA",
-    "ip": "192168250182",
+    "ip": "192168250183",
     "ip_painel": "192.168.250.12",
     "ssid": "ATUALIZE TELECOM CACHOEIRA PMP",
     "sinal": "-56/-54",
@@ -992,7 +992,7 @@
   {
     "ppoe": "jusceliosantos",
     "painel": "P MACACO",
-    "ip": "192168250183",
+    "ip": "192168250139",
     "ip_painel": "192.168.250.7",
     "ssid": "ATUALIZE AP MACACO",
     "sinal": "-73/-77",
@@ -1215,7 +1215,7 @@
     "status": 1
   },
   {
-    "ppoe": "fraciaragomes",
+    "ppoe": "celiasantos",
     "painel": "P CLEMENTES",
     "ip": "192168250182",
     "ip_painel": "192.168.250.20",
